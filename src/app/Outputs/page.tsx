@@ -35,7 +35,7 @@ const Outputs = () => {
     try {
       const response = await request({
         method: "GET",
-        endpoint: "transactions",
+        endpoint: "transactions/type/2",
         loaderStateSetter: setLoading,
       });
       setTransactions(response.data);
@@ -100,7 +100,9 @@ const Outputs = () => {
                         <td className={styles.tdDescription}>{transaction.description}</td>
                         <td className={styles.tdDate}>{dayjs(transaction.date).format("DD/MM/YYYY")}</td>
                         <td className={styles.tdCategory}>Outros</td>
-                        <td className={styles.tdValue} style={{ color: "red" }}>-R${transaction.value}</td>
+                        <td className={styles.tdValue} style={{ color: "red" }}>
+                          -R${transaction.value}
+                        </td>
                       </tr>
                     ))}
                   </>
