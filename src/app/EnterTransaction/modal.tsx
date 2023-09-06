@@ -13,6 +13,14 @@ interface EnterTransactionModalProps {
 
 export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTransactionModalProps) => {
   const [showDescriptionCategory, setShowDescriptionCategory] = useState(false);
+  interface Category {
+    id: number;
+    category_description: string;
+    created_at: Date;
+    updated_at: Date;
+  }
+  const [categories, setCategories] = useState<Category[]>([]);
+
   const [form] = Form.useForm();
 
   const handleCancel = () => {
@@ -30,7 +38,7 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
-          type: "entrada",
+          type_id: 1,
         },
       });
       message.success("Transação adicionada com sucesso!");
@@ -43,8 +51,21 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
     console.log(date, dateString);
   };
 
+  const getCategories = async () => {
+    try {
+      const response = await request({
+        method: "GET",
+        endpoint: "categories/type/1",
+      });
+      setCategories(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     form.resetFields();
+    getCategories();
   }, []);
 
   return (
@@ -106,20 +127,23 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
                 style={{ width: 200, height: 40 }}
                 options={[
                   { value: 0, label: "Nova" },
-                  { value: 1, label: "Ao" },
+                  ...categories.map((category) => ({
+                    value: category.id,
+                    label: category.category_description,
+                  })),
                 ]}
               />
             </Form.Item>
           </Col>
-            <Col>
-              <label>Descrição da Categoria:</label>
-              <Form.Item
-                name="category_description"
-                rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
-              >
-                <Input className={styles.input} />
-              </Form.Item>
-            </Col>
+          <Col>
+            <label>Descrição da Categoria:</label>
+            <Form.Item
+              name="category_description"
+              rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+            >
+              <Input className={styles.input} />
+            </Form.Item>
+          </Col>
         </Row>
         <Col style={{ marginBottom: 20 }} xl={15}>
           <label>Valor:</label>

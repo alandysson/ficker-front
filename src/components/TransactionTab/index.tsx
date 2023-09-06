@@ -3,7 +3,7 @@ import styles from "./transactiontab.module.scss";
 import dayjs from "dayjs";
 import Image from "next/image";
 
-interface Transaction {
+export interface Transaction {
   id: number;
   user_id: number;
   category_id: number;

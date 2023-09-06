@@ -1,6 +1,6 @@
 "use client";
 import { CardInformation } from "@/components/CardInformation";
-import { TransactionTab } from "@/components/TransactionTab";
+import { Transaction, TransactionTab } from "@/components/TransactionTab";
 import { request } from "@/service/api";
 import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
@@ -25,14 +25,26 @@ interface CardProps {
 function CardPage({ card }: CardProps) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [totalValue, setTotalValue] = useState<number>(0);
+  const [cardTranscations, setCardTransactions] = useState<Transaction[]>([]);
+
+  const getCardTotalValue = async () => {
+    try {
+      const response = await request({
+        method: "GET",
+        endpoint: `card/${card.id}/invoice`,
+      });
+      setTotalValue(response.data.data.invoice);
+    } catch (error) {}
+  };
+
   const getCardData = async () => {
     try {
       const response = await request({
-        method: "POST",
-        endpoint: `invoice/card`,
+        method: "GET",
+        endpoint: `transactions/card/${card.id}`,
       });
-      if (response.data.data.total > 0) {
-        setTotalValue(response.data.data.total);
+      if (response.data.length > 0) {
+        setCardTransactions(response.data);
       }
     } catch (error) {}
   };
@@ -43,30 +55,15 @@ function CardPage({ card }: CardProps) {
 
   useEffect(() => {
     getCardData();
+    getCardTotalValue();
   }, [isModalOpen]);
 
   return (
     <Col xl={24}>
-      <CardTransactionModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <CardTransactionModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} cardId={card.id} />
       <Row>
         <Col xl={14} lg={20} md={20} xs={20}>
-          <TransactionTab
-            data={[
-              {
-                id: 1,
-                user_id: 1,
-                category_id: 1,
-                card_id: 1,
-                description: "Teste",
-                date: new Date(),
-                type: "Teste",
-                value: 1,
-                installments: 1,
-                created_at: new Date(),
-                updated_at: new Date(),
-              },
-            ]}
-          />
+          <TransactionTab data={cardTranscations} />
         </Col>
         <Col xl={6} lg={12} md={20} xs={21}>
           <Col>

@@ -32,7 +32,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen }: OutputModalProps) =
     try {
       const response = await request({
         method: "GET",
-        endpoint: "categories",
+        endpoint: "categories/type/2",
       });
       setCategories(response.data);
     } catch (error) {
@@ -50,7 +50,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen }: OutputModalProps) =
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
-          type: "saída",
+          type_id: 2,
         },
       });
       message.success("Transação adicionada com sucesso!");
@@ -105,7 +105,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen }: OutputModalProps) =
             <Input className={styles.input} style={{ width: "95%" }} data-testid="description" />
           </Form.Item>
         </Col>
-        <Col >
+        <Col>
           <label>Data:</label>
           <Form.Item name="date" rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}>
             <DatePicker
