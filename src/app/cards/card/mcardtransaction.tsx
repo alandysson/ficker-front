@@ -5,10 +5,10 @@ import type { DatePickerProps } from "antd";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import styles from "../../EnterTransaction/entertransaction.module.scss";
-
 interface CardTransactionModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
+  cardId: number;
 }
 
 interface Category {
@@ -18,7 +18,7 @@ interface Category {
   updated_at: Date;
 }
 
-export const CardTransactionModal = ({ isModalOpen, setIsModalOpen }: CardTransactionModalProps) => {
+export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: CardTransactionModalProps) => {
   const [showDescriptionCategory, setShowDescriptionCategory] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [form] = Form.useForm();
@@ -32,7 +32,7 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen }: CardTransa
     try {
       const response = await request({
         method: "GET",
-        endpoint: "categories",
+        endpoint: "categories/type/2",
       });
       setCategories(response.data);
     } catch (error) {
@@ -50,7 +50,8 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen }: CardTransa
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
-          type: "cartão de crédito",
+          type_id: 3,
+          card_id: cardId,
         },
       });
       message.success("Transação adicionada com sucesso!");

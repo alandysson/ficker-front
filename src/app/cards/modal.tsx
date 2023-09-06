@@ -129,7 +129,7 @@ export const NewCardModal = ({ isModalOpen, setIsModalOpen }: CardModalProps) =>
         <Col style={{ marginTop: 20 }}>
           <label>Dia de fechamento da fatura:</label>
           <Form.Item
-            name="invoicecloseday"
+            name="closure"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
             <Select data-testid="invoicecloseday" className={styles.input} style={{ width: 250, height: 40 }}>
