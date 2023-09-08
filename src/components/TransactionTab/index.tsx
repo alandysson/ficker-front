@@ -12,7 +12,7 @@ export interface Transaction {
   card_id: number;
   description: string;
   date: Date;
-  type: string;
+  type_id: number;
   value: number;
   installments: number;
   created_at: Date;
@@ -57,7 +57,7 @@ export const TransactionTab = ({ data }: TransactionTabProps) => {
                 <td className={styles.tdDescription}>{transaction.description}</td>
                 <td className={styles.tdDate}>{dayjs(transaction.date).format("DD/MM/YYYY")}</td>
                 <td className={styles.tdCategory}>Outros</td>
-                <td className={styles.tdValue} style={{ color: "red" }}>
+                <td className={styles.tdValue} style={{ color: transaction.type_id === 1 ? 'green' : 'red' }}>
                   -R${transaction.value}
                 </td>
               </tr>
