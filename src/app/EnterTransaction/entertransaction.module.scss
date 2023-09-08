@@ -157,3 +157,17 @@
     padding: 20px;
   }
 }
+
+.secondaryLink {
+  border: none;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.secondaryLink:hover {
+  background-color: #eaeaea;
+  border-radius: 50%;
+}

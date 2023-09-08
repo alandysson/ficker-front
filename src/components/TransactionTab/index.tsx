@@ -2,6 +2,8 @@ import { Col } from "antd";
 import styles from "./transactiontab.module.scss";
 import dayjs from "dayjs";
 import Image from "next/image";
+import { EditTransactionModal } from "@/components/ModalEditTransaction";
+import { useEffect, useState } from "react";
 
 export interface Transaction {
   id: number;
@@ -21,6 +23,15 @@ interface TransactionTabProps {
   data: Transaction[];
 }
 export const TransactionTab = ({ data }: TransactionTabProps) => {
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+
+  const openEditModal = () => {
+    setIsEditModalOpen(true);
+  };
+
+  useEffect(() => {
+  }, [isEditModalOpen]);
+  
   return (
     <Col xs={20} lg={22}>
       <table className={styles.table}>
@@ -37,8 +48,9 @@ export const TransactionTab = ({ data }: TransactionTabProps) => {
           <>
             {data?.map((transaction) => (
               <tr key={transaction.id}>
+                <EditTransactionModal isModalOpen={isEditModalOpen} setIsModalOpen={setIsEditModalOpen} transactionId={transaction.id} />
                 <td className={styles.tdEdit}>
-                  <button style={{ background: "none", border: "none" }} onClick={() => {}}>
+                  <button style={{ background: "none", border: "none" }} onClick={openEditModal}>
                     <Image src="/edit.png" alt="Editar" width={20} height={20} />
                   </button>
                 </td>
