@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { OutputModal } from "./modal";
 import { request } from "@/service/api";
 import dayjs from "dayjs";
+import { TransactionTab } from "@/components/TransactionTab";
 
 interface Transaction {
   id: number;
@@ -70,46 +71,7 @@ const Outputs = () => {
               </button>
             </Col>
           </Row>
-          {loading ? (
-            <Col xl={22}>
-              <Row justify={"center"}>
-                <Spin size="large" />
-              </Row>
-            </Col>
-          ) : (
-            <Col xs={20} lg={22}>
-              <table className={styles.table}>
-                <thead className={styles.thead}>
-                  <tr>
-                    <th>Editar</th>
-                    <th>Descrição</th>
-                    <th>Data</th>
-                    <th>Categoria</th>
-                    <th>Valor</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <>
-                    {transactions?.map((transaction) => (
-                      <tr key={transaction.id}>
-                        <td className={styles.tdEdit}>
-                          <button style={{ background: "none", border: "none" }} onClick={() => {}}>
-                            <Image src="/edit.png" alt="Editar" width={20} height={20} />
-                          </button>
-                        </td>
-                        <td className={styles.tdDescription}>{transaction.description}</td>
-                        <td className={styles.tdDate}>{dayjs(transaction.date).format("DD/MM/YYYY")}</td>
-                        <td className={styles.tdCategory}>Outros</td>
-                        <td className={styles.tdValue} style={{ color: "red" }}>
-                          -R${transaction.value}
-                        </td>
-                      </tr>
-                    ))}
-                  </>
-                </tbody>
-              </table>
-            </Col>
-          )}
+          <TransactionTab data={transactions} />
         </Col>
       </div>
     </div>
