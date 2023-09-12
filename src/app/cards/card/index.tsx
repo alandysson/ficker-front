@@ -6,6 +6,7 @@ import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import styles from "../../EnterTransaction/entertransaction.module.scss";
 import { CardTransactionModal } from "./mcardtransaction";
+import { OutputModal } from "@/app/Outputs/modal";
 
 interface Card {
   best_day: number;
@@ -24,6 +25,7 @@ interface CardProps {
 
 function CardPage({ card }: CardProps) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isOutputModalOpen, setIsOutputModalOpen] = useState<boolean>(false);
   const [totalValue, setTotalValue] = useState<number>(0);
   const [cardTranscations, setCardTransactions] = useState<Transaction[]>([]);
 
@@ -53,6 +55,10 @@ function CardPage({ card }: CardProps) {
     setIsModalOpen(true);
   };
 
+  const openOutputModal = () => {
+    setIsOutputModalOpen(true);
+  };
+
   useEffect(() => {
     getCardData();
     getCardTotalValue();
@@ -61,6 +67,12 @@ function CardPage({ card }: CardProps) {
   return (
     <Col xl={24}>
       <CardTransactionModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} cardId={card.id} />
+      <OutputModal isModalOpen={isOutputModalOpen} setIsModalOpen={setIsOutputModalOpen} initialValues={{
+        description: 'Pagamento ' + card.description,
+        value: totalValue,
+        category_id: 0,
+        category_description: 'Pagamento Cartão de Crédito'
+      }}/>
       <Row>
         <Col xl={14} lg={20} md={20} xs={20}>
           <TransactionTab data={cardTranscations} />
@@ -71,8 +83,11 @@ function CardPage({ card }: CardProps) {
           </Col>
           <Col xl={22} lg={22} md={20} xs={21}>
             <Row justify={"end"}>
-              <button className={styles.button} onClick={openModal}>
+              <button className={styles.button} onClick={openModal} style={{ marginRight: '10px' }}>
                 Nova transação
+              </button>
+              <button className={styles.button} onClick={openOutputModal}>
+                Pagar Fatura
               </button>
             </Row>
           </Col>

@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 interface OutputModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
+  initialValues?: Record<string, any>;
 }
 
 interface Category {
@@ -18,7 +19,7 @@ interface Category {
   updated_at: Date;
 }
 
-export const OutputModal = ({ isModalOpen, setIsModalOpen }: OutputModalProps) => {
+export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: OutputModalProps) => {
   const [showDescriptionCategory, setShowDescriptionCategory] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [form] = Form.useForm();
@@ -65,8 +66,13 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen }: OutputModalProps) =
 
   useEffect(() => {
     getCategories();
-    form.resetFields();
-  }, []);
+    if (initialValues) {
+      form.setFieldsValue(initialValues);
+      if (initialValues.category_id === 0) {
+        setShowDescriptionCategory(true);
+      }
+    }
+  }, [initialValues]);
 
   return (
     <Modal
