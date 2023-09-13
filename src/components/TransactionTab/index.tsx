@@ -4,23 +4,10 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import { EditTransactionModal } from "@/components/ModalEditTransaction";
 import { useEffect, useState } from "react";
-
-export interface Transaction {
-  id: number;
-  user_id: number;
-  category_id: number;
-  card_id: number;
-  description: string;
-  date: Date;
-  type_id: number;
-  value: number;
-  installments: number;
-  created_at: Date;
-  updated_at: Date;
-}
+import { ITransaction } from "@/interfaces";
 
 interface TransactionTabProps {
-  data: Transaction[];
+  data: ITransaction[];
 }
 export const TransactionTab = ({ data }: TransactionTabProps) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
@@ -28,10 +15,8 @@ export const TransactionTab = ({ data }: TransactionTabProps) => {
   const openEditModal = () => {
     setIsEditModalOpen(true);
   };
+  useEffect(() => {}, [isEditModalOpen]);
 
-  useEffect(() => {
-  }, [isEditModalOpen]);
-  
   return (
     <Col xs={20} lg={24}>
       <table className={styles.table}>
@@ -48,7 +33,11 @@ export const TransactionTab = ({ data }: TransactionTabProps) => {
           <>
             {data?.map((transaction) => (
               <tr key={transaction.id}>
-                <EditTransactionModal isModalOpen={isEditModalOpen} setIsModalOpen={setIsEditModalOpen} transactionId={transaction.id} />
+                <EditTransactionModal
+                  isModalOpen={isEditModalOpen}
+                  setIsModalOpen={setIsEditModalOpen}
+                  transaction={transaction}
+                />
                 <td className={styles.tdEdit}>
                   <button style={{ background: "none", border: "none" }} onClick={openEditModal}>
                     <Image src="/edit.png" alt="Editar" width={20} height={20} />
@@ -56,9 +45,9 @@ export const TransactionTab = ({ data }: TransactionTabProps) => {
                 </td>
                 <td className={styles.tdDescription}>{transaction.description}</td>
                 <td className={styles.tdDate}>{dayjs(transaction.date).format("DD/MM/YYYY")}</td>
-                <td className={styles.tdCategory}>Outros</td>
-                <td className={styles.tdValue} style={{ color: transaction.type_id === 1 ? 'green' : 'red' }}>
-                { transaction.type_id === 1 ? ' ' : '-' }R${transaction.value}
+                <td className={styles.tdCategory}>{transaction.category_description}</td>
+                <td className={styles.tdValue} style={{ color: transaction.type_id === 1 ? "green" : "red" }}>
+                  {transaction.type_id === 1 ? " " : "-"}R${transaction.value}
                 </td>
               </tr>
             ))}

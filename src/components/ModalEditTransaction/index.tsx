@@ -1,29 +1,18 @@
 "use client";
 import { request } from "@/service/api";
-import {
-  Modal,
-  Col,
-  DatePicker,
-  Row,
-  Select,
-  Form,
-  Button,
-  Input,
-  message,
-} from "antd";
+import { Modal, Col, DatePicker, Row, Select, Form, Button, Input, message } from "antd";
 import type { DatePickerProps } from "antd";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import Image from "next/image";
 import styles from "@/app/EnterTransaction/entertransaction.module.scss";
-import { Transaction } from "@/components/TransactionTab";
+import { ITransaction } from "@/interfaces";
 
 interface EditTransactionModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
-  transactionId: number;
+  transaction: ITransaction;
 }
-
 interface Category {
   id: number;
   category_description: string;
@@ -34,11 +23,10 @@ interface Category {
 export const EditTransactionModal = ({
   isModalOpen,
   setIsModalOpen,
-  transactionId,
+  transaction,
 }: EditTransactionModalProps) => {
   const [showDescriptionCategory, setShowDescriptionCategory] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [editingTransaction, setEditingTransaction] = useState<Transaction>();
   const [form] = Form.useForm();
 
   const handleCancel = () => {
@@ -50,23 +38,10 @@ export const EditTransactionModal = ({
     try {
       const response = await request({
         method: "DELETE",
-        endpoint: `transactions/${transactionId}`,
+        endpoint: `transactions/delete/${transaction.id}`,
       });
       message.success("Transação deletada com sucesso!");
       handleCancel();
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const getEditingTransaction = async () => {
-    try {
-      const response = await request({
-        method: "GET",
-        endpoint: `transactions/${transactionId}`,
-      });
-      setEditingTransaction(response.data);
-      await getCategories(response.data.type_id);
     } catch (error) {
       console.log(error);
     }
@@ -87,10 +62,10 @@ export const EditTransactionModal = ({
   const handleFinish = async () => {
     try {
       const values = await form.validateFields();
-      console.log(dayjs(values.date).format("YYYY-MM-DD"));
+      console.log(values);
       await request({
-        method: "UPDATE",
-        endpoint: `transaction/${transactionId}`,
+        method: "PUT",
+        endpoint: `transactions/update/${transaction.id}`,
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
@@ -107,7 +82,7 @@ export const EditTransactionModal = ({
   };
 
   useEffect(() => {
-    getEditingTransaction();
+    getCategories(transaction.type_id);
     form.resetFields();
   }, []);
 
@@ -131,7 +106,13 @@ export const EditTransactionModal = ({
         form={form}
         name="basic"
         data-testid="form"
-        initialValues={editingTransaction}
+        initialValues={{
+          description: transaction.description,
+          date: dayjs(transaction.date),
+          category_id: transaction.category_id,
+          installments: transaction.installments,
+          value: transaction.value,
+        }}
         onFinish={handleFinish}
         onFinishFailed={(errorInfo) => console.log(errorInfo)}
         onValuesChange={(changedValues) => {
@@ -144,31 +125,21 @@ export const EditTransactionModal = ({
           <label>Descrição</label>
           <Form.Item
             name="description"
-            rules={[
-              { required: true, message: "Esse campo precisa ser preenchido!" },
-            ]}
+            rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
-            <Input
-              className={styles.input}
-              style={{ width: "95%" }}
-              data-testid="description"
-            />
+            <Input className={styles.input} style={{ width: "95%" }} data-testid="description" />
           </Form.Item>
         </Col>
         <Col style={{ marginTop: 20 }}>
           <label>Data:</label>
-          <Form.Item
-            name="date"
-            rules={[
-              { required: true, message: "Esse campo precisa ser preenchido!" },
-            ]}
-          >
+          <Form.Item name="date" rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}>
             <DatePicker
               data-testid="date"
               onChange={onChange}
               className={styles.input}
               placeholder="dd/mm/aaaa"
               format={"DD/MM/YYYY"}
+              defaultValue={dayjs(transaction.date)}
             />
           </Form.Item>
         </Col>
@@ -210,48 +181,32 @@ export const EditTransactionModal = ({
                   },
                 ]}
               >
-                <Input
-                  className={styles.input}
-                  data-testid="category_description"
-                />
+                <Input className={styles.input} data-testid="category_description" />
               </Form.Item>
             </Col>
           ) : null}
         </Row>
-        <Col>
-          <label>Parcelas:</label>
-          <Form.Item
-            name="installments"
-            rules={[
-              { required: true, message: "Esse campo precisa ser preenchido!" },
-            ]}
-          >
-            <Select
-              data-testid="installments"
-              className={styles.input}
-              style={{ width: 150, height: 35 }}
+        {transaction.installments ? (
+          <Col>
+            <label>Parcelas:</label>
+            <Form.Item
+              name="installments"
+              rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
             >
-              {Array.from({ length: 12 }, (_, index) => (
-                <Select.Option key={index + 1} value={index + 1}>
-                  {`${index + 1}x`}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </Col>
+              <Select data-testid="installments" className={styles.input} style={{ width: 150, height: 35 }}>
+                {Array.from({ length: 12 }, (_, index) => (
+                  <Select.Option key={index + 1} value={index + 1}>
+                    {`${index + 1}x`}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Col>
+        ) : null}
         <Col style={{ marginBottom: 20 }} xl={15}>
           <label>Valor:</label>
-          <Form.Item
-            name="value"
-            rules={[
-              { required: true, message: "Esse campo precisa ser preenchido!" },
-            ]}
-          >
-            <Input
-              className={styles.input}
-              placeholder="R$"
-              data-testid="value"
-            />
+          <Form.Item name="value" rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}>
+            <Input className={styles.input} placeholder="R$" data-testid="value" />
           </Form.Item>
         </Col>
         <Row
@@ -270,12 +225,7 @@ export const EditTransactionModal = ({
             </Button>
           </div>
           <Button className={styles.secondaryLink} onClick={handleDelete}>
-            <Image
-              src="/icons/icon-delete.svg"
-              alt="Excluir"
-              width={20}
-              height={20}
-            />
+            <Image src="/icons/icon-delete.svg" alt="Excluir" width={20} height={20} />
           </Button>
         </Row>
       </Form>
