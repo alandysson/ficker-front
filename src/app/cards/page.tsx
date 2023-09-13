@@ -20,6 +20,7 @@ interface Card {
   id: number;
   updated_at: Date;
   user_id: number;
+  invoice: number;
 }
 
 const Cards = () => {
@@ -65,9 +66,9 @@ const Cards = () => {
         </Link>
       </div>
       <NewCardModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-      <div style={{ display: "flex", flexDirection: "row"}}>
+      <div style={{ display: "flex", flexDirection: "row" }}>
         <CustomMenu />
-        <div style={{ width: "90vw"}} >
+        <div style={{ width: "90vw" }}>
           <div className={styles.titleArea}>
             <div>
               <h3>{`Meus cartões ${
@@ -75,8 +76,8 @@ const Cards = () => {
               }`}</h3>
             </div>
             <div className={styles.buttonsArea}>
-              <SearchField/>
-              <button className={styles.button} onClick={openModal} >
+              <SearchField />
+              <button className={styles.button} onClick={openModal}>
                 Novo Cartão
               </button>
             </div>
@@ -120,7 +121,7 @@ const Cards = () => {
                           </Row>
                           <Col>
                             <Text type="secondary">Próxima fatura:</Text>
-                            <Title level={4}>R$ 300,20</Title>
+                            <Title level={4}>R$ {card.invoice}</Title>
                           </Col>
                           <Row justify={"end"}>
                             <Col>
