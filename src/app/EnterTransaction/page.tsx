@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { EnterTransactionModal } from "./modal";
 import { request } from "@/service/api";
 import { Transaction, TransactionTab } from "@/components/TransactionTab";
+import SearchField from "@/components/SearchField";
 
 const EnterTransaction = () => {
   3;
@@ -44,20 +45,20 @@ const EnterTransaction = () => {
       <div style={{ display: "flex", flexDirection: "row" }}>
         <CustomMenu />
         <EnterTransactionModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-        <Col style={{ paddingTop: 10 }} lg={19}>
-          <Row justify={"space-between"} style={{ padding: 20 }}>
-            <Col xs={24} lg={10}>
+        <div style={{ width: "90vw"}} >
+          <div className={styles.titleArea}>
+            <div>
               <h3>Entradas</h3>
-            </Col>
-            <Col xs={24} lg={7}>
-              <input className={styles.input} placeholder="Procurar..." />
-              <button className={styles.button} onClick={showModal}>
+            </div>
+            <div className={styles.buttonsArea}>
+              <SearchField/>
+              <button className={styles.button} onClick={showModal} >
                 Nova Transação
               </button>
-            </Col>
-          </Row>
+            </div>
+          </div>
           <TransactionTab data={transactions} />
-        </Col>
+        </div>
       </div>
     </div>
   );

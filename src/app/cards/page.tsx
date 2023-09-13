@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { request } from "@/service/api";
 import dayjs from "dayjs";
 import CardPage from "./card";
+import SearchField from "@/components/SearchField";
 
 interface Card {
   best_day: number;
@@ -64,22 +65,22 @@ const Cards = () => {
         </Link>
       </div>
       <NewCardModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div style={{ display: "flex", flexDirection: "row"}}>
         <CustomMenu />
-        <Col style={{ paddingTop: 10 }} lg={20}>
-          <Row justify={"space-between"} style={{ padding: 20 }}>
-            <Col xs={24} lg={15}>
+        <div style={{ width: "90vw"}} >
+          <div className={styles.titleArea}>
+            <div>
               <h3>{`Meus cartões ${
-                Object.keys(selectedCard).length > 0 ? ">" + selectedCard.description : ""
+                Object.keys(selectedCard).length > 0 ? "> " + selectedCard.description : ""
               }`}</h3>
-            </Col>
-            <Col xs={24} lg={9}>
-              <input className={styles.input} placeholder="Procurar..." />
-              <button className={styles.button} onClick={openModal}>
+            </div>
+            <div className={styles.buttonsArea}>
+              <SearchField/>
+              <button className={styles.button} onClick={openModal} >
                 Novo Cartão
               </button>
-            </Col>
-          </Row>
+            </div>
+          </div>
           {loading ? (
             <Row justify={"center"}>
               <Spin size="large" />
@@ -146,7 +147,7 @@ const Cards = () => {
               )}
             </Row>
           )}
-        </Col>
+        </div>
       </div>
     </div>
   );

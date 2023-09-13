@@ -1,13 +1,14 @@
 .button {
-  padding: 10px;
+  padding: 10px 15px;
   border: none;
   border-radius: 8px;
   outline: none;
   background-color: #6C5DD3;
   color: #F8FAFC;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 10px;
   height: 40px;
+  width: 200px;
 
   &:hover {
     opacity: 0.7;
@@ -170,4 +171,28 @@
 .secondaryLink:hover {
   background-color: #eaeaea;
   border-radius: 50%;
+}
+
+.contentArea {
+  width: 90vw;
+}
+
+.buttonsArea {
+  display: block;
+  width: 400px;
+}
+
+.titleArea{
+  padding: 10px 30px;
+}
+
+@media (min-width: 768px) {
+  .titleArea{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .buttonsArea {
+    display: flex;
+  }
 }
