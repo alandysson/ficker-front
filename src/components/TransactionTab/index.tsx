@@ -33,7 +33,7 @@ export const TransactionTab = ({ data }: TransactionTabProps) => {
   }, [isEditModalOpen]);
   
   return (
-    <Col xs={20} lg={22}>
+    <Col xs={20} lg={24}>
       <table className={styles.table}>
         <thead className={styles.thead}>
           <tr>
@@ -58,7 +58,7 @@ export const TransactionTab = ({ data }: TransactionTabProps) => {
                 <td className={styles.tdDate}>{dayjs(transaction.date).format("DD/MM/YYYY")}</td>
                 <td className={styles.tdCategory}>Outros</td>
                 <td className={styles.tdValue} style={{ color: transaction.type_id === 1 ? 'green' : 'red' }}>
-                  -R${transaction.value}
+                { transaction.type_id === 1 ? ' ' : '-' }R${transaction.value}
                 </td>
               </tr>
             ))}
