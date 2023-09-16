@@ -1,0 +1,35 @@
+.card {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 5px 20px 20px 20px;
+    max-width: 426px;
+}
+.transactions-area {
+    max-height: 230px;
+    overflow-y: auto;
+}
+.transaction-area {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    align-items: center;
+    padding: 0 10px;
+}
+.transaction-area__infos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.transaction-area__description{
+    display: block;
+    margin-left: 10px;
+
+    p {
+        margin: 0;
+        font-size: medium;
+    }
+    span {
+        color: #808191;
+        font-size: smaller;
+    }
+}
