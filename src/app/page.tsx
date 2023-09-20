@@ -1,10 +1,9 @@
 "use client";
 import MainContext from "@/context";
 import { useContext, useEffect, useState } from "react";
-import EnterTransaction from "./EnterTransaction/page";
 import { HomeScreen } from "./pages/Home/Home";
-import { Cookies } from "react-cookie";
 import { Spin } from "antd";
+import Resume from "./resume/page";
 
 export default function Home() {
   const { auth, setAuth } = useContext(MainContext);
@@ -32,7 +31,7 @@ export default function Home() {
       </div>
     );
 
-  if (auth) return <EnterTransaction />;
+  if (auth) return <Resume />;
 
   return <HomeScreen />;
 }
