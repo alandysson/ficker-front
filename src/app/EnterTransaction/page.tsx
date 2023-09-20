@@ -7,13 +7,14 @@ import CustomMenu from "@/components/CustomMenu";
 import { useEffect, useState } from "react";
 import { EnterTransactionModal } from "./modal";
 import { request } from "@/service/api";
-import { Transaction, TransactionTab } from "@/components/TransactionTab";
+import { TransactionTab } from "@/components/TransactionTab";
 import SearchField from "@/components/SearchField";
+import { ITransaction } from "@/interfaces";
 
 const EnterTransaction = () => {
   3;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const [loading, setLoading] = useState(false);
 
   const getTransactions = async () => {
@@ -45,14 +46,14 @@ const EnterTransaction = () => {
       <div style={{ display: "flex", flexDirection: "row" }}>
         <CustomMenu />
         <EnterTransactionModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-        <div style={{ width: "90vw"}} >
+        <div style={{ width: "90vw" }}>
           <div className={styles.titleArea}>
             <div>
               <h3>Entradas</h3>
             </div>
             <div className={styles.buttonsArea}>
-              <SearchField/>
-              <button className={styles.button} onClick={showModal} >
+              <SearchField />
+              <button className={styles.button} onClick={showModal}>
                 Nova Transação
               </button>
             </div>
