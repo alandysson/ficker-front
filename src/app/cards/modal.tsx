@@ -111,12 +111,28 @@ export const NewCardModal = ({ isModalOpen, setIsModalOpen }: CardModalProps) =>
           </Form.Item>
         </Col>
         <Col style={{ marginTop: 20 }}>
-          <label>Vencimento:</label>
+          <label>Dia de vencimento da fatura:</label>
           <Form.Item
             name="expiration"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
-            <Select data-testid="expiration" className={styles.input} style={{ width: 200, height: 40 }}>
+            <Select data-testid="expiration" className={styles.input} style={{ width: 250, height: 40 }}>
+              {/* Renderize as opções com os dias do mês */}
+              {Array.from({ length: 31 }, (_, index) => (
+                <Select.Option key={index + 1} value={index + 1}>
+                  {index + 1}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </Col>
+        <Col style={{ marginTop: 20 }}>
+          <label>Dia de fechamento da fatura:</label>
+          <Form.Item
+            name="closure"
+            rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+          >
+            <Select data-testid="invoicecloseday" className={styles.input} style={{ width: 250, height: 40 }}>
               {/* Renderize as opções com os dias do mês */}
               {Array.from({ length: 31 }, (_, index) => (
                 <Select.Option key={index + 1} value={index + 1}>

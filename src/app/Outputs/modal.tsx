@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 interface OutputModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
+  initialValues?: Record<string, any>;
 }
 
 interface Category {
@@ -18,7 +19,7 @@ interface Category {
   updated_at: Date;
 }
 
-export const OutputModal = ({ isModalOpen, setIsModalOpen }: OutputModalProps) => {
+export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: OutputModalProps) => {
   const [showDescriptionCategory, setShowDescriptionCategory] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [form] = Form.useForm();
@@ -32,7 +33,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen }: OutputModalProps) =
     try {
       const response = await request({
         method: "GET",
-        endpoint: "categories",
+        endpoint: "categories/type/2",
       });
       setCategories(response.data);
     } catch (error) {
@@ -50,7 +51,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen }: OutputModalProps) =
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
-          type: "saída",
+          type_id: 2,
         },
       });
       message.success("Transação adicionada com sucesso!");
@@ -65,8 +66,13 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen }: OutputModalProps) =
 
   useEffect(() => {
     getCategories();
-    form.resetFields();
-  }, []);
+    if (initialValues) {
+      form.setFieldsValue(initialValues);
+      if (initialValues.category_id === 0) {
+        setShowDescriptionCategory(true);
+      }
+    }
+  }, [initialValues]);
 
   return (
     <Modal
@@ -105,7 +111,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen }: OutputModalProps) =
             <Input className={styles.input} style={{ width: "95%" }} data-testid="description" />
           </Form.Item>
         </Col>
-        <Col >
+        <Col>
           <label>Data:</label>
           <Form.Item name="date" rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}>
             <DatePicker

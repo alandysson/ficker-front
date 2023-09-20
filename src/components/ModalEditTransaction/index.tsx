@@ -4,13 +4,15 @@ import { Modal, Col, DatePicker, Row, Select, Form, Button, Input, message } fro
 import type { DatePickerProps } from "antd";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import styles from "../../EnterTransaction/entertransaction.module.scss";
-interface CardTransactionModalProps {
+import Image from "next/image";
+import styles from "@/app/EnterTransaction/entertransaction.module.scss";
+import { ITransaction } from "@/interfaces";
+
+interface EditTransactionModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
-  cardId: number;
+  transaction: ITransaction;
 }
-
 interface Category {
   id: number;
   category_description: string;
@@ -18,7 +20,11 @@ interface Category {
   updated_at: Date;
 }
 
-export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: CardTransactionModalProps) => {
+export const EditTransactionModal = ({
+  isModalOpen,
+  setIsModalOpen,
+  transaction,
+}: EditTransactionModalProps) => {
   const [showDescriptionCategory, setShowDescriptionCategory] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [form] = Form.useForm();
@@ -28,11 +34,24 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
     form.resetFields();
   };
 
-  const getCategories = async () => {
+  const handleDelete = async () => {
+    try {
+      const response = await request({
+        method: "DELETE",
+        endpoint: `transactions/delete/${transaction.id}`,
+      });
+      message.success("Transação deletada com sucesso!");
+      handleCancel();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getCategories = async (typeId: number) => {
     try {
       const response = await request({
         method: "GET",
-        endpoint: "categories/type/2",
+        endpoint: `categories/type/${typeId}`,
       });
       setCategories(response.data);
     } catch (error) {
@@ -43,21 +62,19 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
   const handleFinish = async () => {
     try {
       const values = await form.validateFields();
-      console.log(dayjs(values.date).format("YYYY-MM-DD"));
+      console.log(values);
       await request({
-        method: "POST",
-        endpoint: "transaction",
+        method: "PUT",
+        endpoint: `transactions/update/${transaction.id}`,
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
-          type_id: 3,
-          card_id: cardId,
         },
       });
-      message.success("Transação adicionada com sucesso!");
+      message.success("Transação atualizada com sucesso!");
       handleCancel();
     } catch (errorInfo) {
-      message.error("Erro ao adicionar transação!");
+      message.error("Erro ao editar transação!");
     }
   };
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
@@ -65,13 +82,13 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
   };
 
   useEffect(() => {
-    getCategories();
+    getCategories(transaction.type_id);
     form.resetFields();
   }, []);
 
   return (
     <Modal
-      title="Nova transação no crédito"
+      title="Editar Transação"
       open={isModalOpen}
       onCancel={handleCancel}
       okButtonProps={{
@@ -89,6 +106,13 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
         form={form}
         name="basic"
         data-testid="form"
+        initialValues={{
+          description: transaction.description,
+          date: dayjs(transaction.date),
+          category_id: transaction.category_id,
+          installments: transaction.installments,
+          value: transaction.value,
+        }}
         onFinish={handleFinish}
         onFinishFailed={(errorInfo) => console.log(errorInfo)}
         onValuesChange={(changedValues) => {
@@ -115,6 +139,7 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
               className={styles.input}
               placeholder="dd/mm/aaaa"
               format={"DD/MM/YYYY"}
+              defaultValue={dayjs(transaction.date)}
             />
           </Form.Item>
         </Col>
@@ -123,7 +148,12 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
             <label>Categoria:</label>
             <Form.Item
               name="category_id"
-              rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+              rules={[
+                {
+                  required: true,
+                  message: "Esse campo precisa ser preenchido!",
+                },
+              ]}
             >
               <Select
                 data-testid="category_id"
@@ -144,40 +174,58 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
               <label>Descrição da Categoria:</label>
               <Form.Item
                 name="category_description"
-                rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+                rules={[
+                  {
+                    required: true,
+                    message: "Esse campo precisa ser preenchido!",
+                  },
+                ]}
               >
                 <Input className={styles.input} data-testid="category_description" />
               </Form.Item>
             </Col>
           ) : null}
         </Row>
-        <Col>
-          <label>Parcelas:</label>
-          <Form.Item
-            name="installments"
-            rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
-          >
-            <Select data-testid="installments" className={styles.input} style={{ width: 150, height: 35 }}>
-              {Array.from({ length: 12 }, (_, index) => (
-                <Select.Option key={index + 1} value={index + 1}>
-                  {`${index + 1}x`}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </Col>
+        {transaction.installments ? (
+          <Col>
+            <label>Parcelas:</label>
+            <Form.Item
+              name="installments"
+              rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+            >
+              <Select data-testid="installments" className={styles.input} style={{ width: 150, height: 35 }}>
+                {Array.from({ length: 12 }, (_, index) => (
+                  <Select.Option key={index + 1} value={index + 1}>
+                    {`${index + 1}x`}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Col>
+        ) : null}
         <Col style={{ marginBottom: 20 }} xl={15}>
           <label>Valor:</label>
           <Form.Item name="value" rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}>
             <Input className={styles.input} placeholder="R$" data-testid="value" />
           </Form.Item>
         </Col>
-        <Row>
-          <Button className={styles.modalButtonWhite} onClick={handleCancel}>
-            Cancelar
-          </Button>
-          <Button htmlType="submit" className={styles.modalButtonPurple}>
-            Adicionar
+        <Row
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div>
+            <Button className={styles.modalButtonWhite} onClick={handleCancel}>
+              Cancelar
+            </Button>
+            <Button htmlType="submit" className={styles.modalButtonPurple}>
+              Salvar
+            </Button>
+          </div>
+          <Button className={styles.secondaryLink} onClick={handleDelete}>
+            <Image src="/icons/icon-delete.svg" alt="Excluir" width={20} height={20} />
           </Button>
         </Row>
       </Form>
