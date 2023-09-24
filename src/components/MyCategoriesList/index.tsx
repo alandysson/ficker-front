@@ -28,6 +28,14 @@ const MyCategoriesList = () => {
         setIsModalOpen(true);
     }
 
+    const formatCurrency = (value: any) => {
+        const formattedValue = parseFloat(value).toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        });
+        return formattedValue;
+      };
+
     const colorPalette = ['#5B48D4', '#D47E72', '#B168D4', '#D4C148', '#53D495', '#3A2E87', '#D49A72', '#51D448', '#3A8735', ];
 
     useEffect(() => {
@@ -50,7 +58,7 @@ const MyCategoriesList = () => {
               amount: 300,
             },
           ])
-    })
+    }, [])
 
     return (
         <div className="card">
@@ -63,7 +71,7 @@ const MyCategoriesList = () => {
             <ModalNewCategory isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
             <div className="categories-area">
                 {categories?.map((category, index) => (
-                    <div className="category-area">
+                    <div className="category-area" key={index}>
                         <div className="category-area__infos">
                             <span style={{background: colorPalette[index % colorPalette.length]}} className="circle"></span>
                             <div className="category-area__description">
@@ -71,7 +79,7 @@ const MyCategoriesList = () => {
                             </div>
                         </div>
                         <div className="category-area__value">
-                            R${category.amount}
+                            {formatCurrency(category.amount)}
                         </div>
                     </div>
                 ))}
