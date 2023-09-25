@@ -47,7 +47,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
       console.log(dayjs(values.date).format("YYYY-MM-DD"));
       await request({
         method: "POST",
-        endpoint: "transaction",
+        endpoint: "transaction/store",
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),

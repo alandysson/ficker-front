@@ -46,7 +46,7 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
       console.log(dayjs(values.date).format("YYYY-MM-DD"));
       await request({
         method: "POST",
-        endpoint: "transaction",
+        endpoint: "transaction/store",
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),

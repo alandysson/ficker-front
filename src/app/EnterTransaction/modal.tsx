@@ -34,7 +34,7 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
       console.log(dayjs(values.date).format("YYYY-MM-DD"));
       await request({
         method: "POST",
-        endpoint: "transaction",
+        endpoint: "transaction/store",
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
@@ -135,15 +135,17 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
               />
             </Form.Item>
           </Col>
-          <Col>
-            <label>Descrição da Categoria:</label>
-            <Form.Item
-              name="category_description"
-              rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
-            >
-              <Input className={styles.input} />
-            </Form.Item>
-          </Col>
+          {showDescriptionCategory ? (
+            <Col>
+              <label>Descrição da Categoria:</label>
+              <Form.Item
+                name="category_description"
+                rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+              >
+                <Input className={styles.input} />
+              </Form.Item>
+            </Col>
+          ) : null}
         </Row>
         <Col style={{ marginBottom: 20 }} xl={15}>
           <label>Valor:</label>

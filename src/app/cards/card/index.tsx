@@ -88,14 +88,18 @@ function CardPage({ card }: CardProps) {
           <Col>
             <CardInformation card={card} totalValue={totalValue} />
           </Col>
-          <Col xl={22} lg={22} md={20} xs={21}>
+          <Col xl={20} lg={22} md={20} xs={21}>
             <Row justify={"end"}>
-              <button className={styles.button} onClick={openModal} style={{ marginRight: "10px" }}>
-                Nova transação
-              </button>
-              <button className={styles.button} onClick={openOutputModal}>
-                Pagar Fatura
-              </button>
+              <Col xl={12} lg={22} md={20} xs={21}>
+                <button className={styles.button} onClick={openModal}>
+                  Nova transação
+                </button>
+              </Col>
+              <Col xl={3} lg={22} md={20} xs={21} style={{ marginLeft: "80px" }}>
+                <button className={styles.button} onClick={openOutputModal}>
+                  Pagar Fatura
+                </button>
+              </Col>
             </Row>
           </Col>
         </Col>
