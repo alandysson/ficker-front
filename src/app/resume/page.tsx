@@ -33,9 +33,7 @@ const Resume = () => {
   const dateRange = `${firstDayOfMonth.getDate()} de ${monthName} - ${lastDayOfMonth.getDate()} de ${monthName}`;
 
   const [showSaldo, setShowSaldo] = useState(true);
-  const [iconShowSaldo, setIconShowSaldo] = useState(
-    "/icons/icon-hide-saldo.svg"
-  );
+  const [iconShowSaldo, setIconShowSaldo] = useState("/icons/icon-hide-saldo.svg");
   const [isEditMode, setIsEditMode] = useState(false);
   const [gastoPlanejado, setGastoPlanejado] = useState("0");
 
@@ -50,14 +48,14 @@ const Resume = () => {
 
   const handleClickEditGastoPlanejado = () => {
     setIsEditMode(true);
-  }
+  };
 
   const handleBlur = () => {
     setIsEditMode(false);
     // Faça a requisição de atualização aqui com o novo valor (gastoPlanejado)
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: any) => {
     if (e.keyCode === 13) {
       setIsEditMode(false);
       // Faça a requisição de atualização aqui com o novo valor (gastoPlanejado)
@@ -65,9 +63,9 @@ const Resume = () => {
   };
 
   const formatCurrency = (value: any) => {
-    const formattedValue = parseFloat(value).toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
+    const formattedValue = parseFloat(value).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
     });
     return formattedValue;
   };
@@ -75,10 +73,7 @@ const Resume = () => {
   return (
     <div>
       <div style={{ background: "#fff", padding: 10, alignItems: "center" }}>
-        <Link
-          href={"/"}
-          style={{ background: "#fff", padding: 10, alignItems: "center" }}
-        >
+        <Link href={"/"} style={{ background: "#fff", padding: 10, alignItems: "center" }}>
           <Image src="/logo.png" alt="Logo" width={130} height={27} />
         </Link>
       </div>
@@ -92,9 +87,7 @@ const Resume = () => {
               </div>
             </div>
             <div>
-              <span style={{ color: "#808191", fontSize: "small" }}>
-                {dateRange}
-              </span>
+              <span style={{ color: "#808191", fontSize: "small" }}>{dateRange}</span>
             </div>
           </Row>
           <Row justify={"space-between"}>
@@ -109,9 +102,7 @@ const Resume = () => {
               <Row align={"middle"} justify={"space-between"}>
                 <Col style={{ marginRight: 10 }}>
                   <p className={styles.balance_description}>Saldo</p>
-                  <p className={styles.balance_title}>
-                    {showSaldo ? "R$ 0" : "****"}
-                  </p>
+                  <p className={styles.balance_title}>{showSaldo ? "R$ 0" : "****"}</p>
                 </Col>
                 <Col>
                   <Button type="text">
@@ -138,45 +129,46 @@ const Resume = () => {
                 >
                   <Row align={"middle"} justify={"space-between"}>
                     <Col style={{ marginRight: 10 }}>
-                      <p className={styles.balance_description}>
-                        Gasto Planejado
-                      </p>
+                      <p className={styles.balance_description}>Gasto Planejado</p>
                       {isEditMode ? (
-                          <input
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            value={gastoPlanejado}
-                            onChange={(e) => setGastoPlanejado(e.target.value)}
-                            onBlur={handleBlur}
-                            onKeyDown={handleKeyDown}
-                            autoFocus
-                            style={{
-                              border: 'none', 
-                              outline: 'none', 
-                              background: 'none', 
-                              boxShadow: 'none' ,
-                              width: "90%",
-                              fontSize: "large",
-                              padding: "15px"
-                            }}
-                          />
+                        <input
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          value={gastoPlanejado}
+                          onChange={(e) => setGastoPlanejado(e.target.value)}
+                          onBlur={handleBlur}
+                          onKeyDown={handleKeyDown}
+                          autoFocus
+                          style={{
+                            border: "none",
+                            outline: "none",
+                            background: "none",
+                            boxShadow: "none",
+                            width: "90%",
+                            fontSize: "large",
+                            padding: "15px",
+                          }}
+                        />
                       ) : (
                         <p className={styles.balance_title}>{formatCurrency(gastoPlanejado)}</p>
                       )}
                     </Col>
                     {!isEditMode ? (
-                    <Col>
-                      <Button type="text">
-                        <Image
-                          src="/edit.png"
-                          alt="Editar"
-                          width={20}
-                          height={20}
-                          onClick={handleClickEditGastoPlanejado}
-                        />
-                      </Button>
-                    </Col>) : ''}
+                      <Col>
+                        <Button type="text">
+                          <Image
+                            src="/edit.png"
+                            alt="Editar"
+                            width={20}
+                            height={20}
+                            onClick={handleClickEditGastoPlanejado}
+                          />
+                        </Button>
+                      </Col>
+                    ) : (
+                      ""
+                    )}
                   </Row>
                 </Col>
                 <Col className={styles.balance} xl={11} lg={11} md={10} xs={15}>
