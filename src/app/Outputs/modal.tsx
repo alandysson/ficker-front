@@ -5,6 +5,7 @@ import { Modal, Col, DatePicker, Row, Select, Form, Button, Input, message } fro
 import type { DatePickerProps } from "antd";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import { Card } from "@/interfaces";
 
 interface OutputModalProps {
   isModalOpen: boolean;
@@ -21,12 +22,16 @@ interface Category {
 
 export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: OutputModalProps) => {
   const [showDescriptionCategory, setShowDescriptionCategory] = useState(false);
+  const [showCards, setShowCards] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [form] = Form.useForm();
+  const [cards, setCards] = useState<Card[]>([]);
 
   const handleCancel = () => {
     setIsModalOpen(false);
     form.resetFields();
+    setShowDescriptionCategory(false);
+    setShowCards(false);
   };
 
   const getCategories = async () => {
@@ -60,16 +65,28 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
       message.error("Erro ao adicionar transação!");
     }
   };
-  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-    console.log(date, dateString);
-  };
 
+  const getCards = async () => {
+    try {
+      const response = await request({
+        method: "GET",
+        endpoint: "cards",
+      });
+      setCards(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     getCategories();
+    getCards();
     if (initialValues) {
       form.setFieldsValue(initialValues);
       if (initialValues.category_id === 0) {
         setShowDescriptionCategory(true);
+      }
+      if (initialValues.payment_method_id === 2) {
+        setShowCards(true);
       }
     }
   }, [initialValues]);
@@ -100,6 +117,9 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
           if (Object.keys(changedValues)[0] === "category_id") {
             setShowDescriptionCategory(changedValues.category_id === 0);
           }
+          if (Object.keys(changedValues)[0] === "payment_method_id") {
+            setShowCards(changedValues.payment_method_id === 2);
+          }
         }}
       >
         <Col style={{ marginTop: 20 }}>
@@ -116,13 +136,71 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
           <Form.Item name="date" rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}>
             <DatePicker
               data-testid="date"
-              onChange={onChange}
               className={styles.input}
               placeholder="dd/mm/aaaa"
               format={"DD/MM/YYYY"}
             />
           </Form.Item>
         </Col>
+        <Row>
+          <Col>
+            <label>Forma de Pagamento:</label>
+            <Form.Item
+              name="payment_method_id"
+              rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+            >
+              <Select
+                data-testid="payment_method_id"
+                className={styles.input}
+                style={{ width: 200, height: 40 }}
+                options={[
+                  { value: 1, label: "Saldo" },
+                  { value: 2, label: "Cartão" },
+                ]}
+              />
+            </Form.Item>
+          </Col>
+          {showCards ? (
+            <>
+              <Col>
+                <label>Descrição da Categoria:</label>
+                <Form.Item
+                  name="card_id"
+                  rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+                >
+                  <Select
+                    data-testid="card_id"
+                    className={styles.input}
+                    style={{ width: 200, height: 40 }}
+                    options={cards.map((card) => ({
+                      value: card.id,
+                      label: card.description,
+                    }))}
+                  />
+                </Form.Item>
+              </Col>
+              <Col>
+                <label>Parcelas:</label>
+                <Form.Item
+                  name="installments"
+                  rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+                >
+                  <Select
+                    data-testid="installments"
+                    className={styles.input}
+                    style={{ width: 150, height: 35 }}
+                  >
+                    {Array.from({ length: 12 }, (_, index) => (
+                      <Select.Option key={index + 1} value={index + 1}>
+                        {`${index + 1}x`}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </Col>
+            </>
+          ) : null}
+        </Row>
         <Row>
           <Col>
             <label>Categoria:</label>
