@@ -13,7 +13,7 @@ import { ITransaction } from "@/interfaces";
 interface Card {
   best_day: number;
   created_at: Date;
-  description: string;
+  card_description: string;
   expiration: number;
   flag_id: number;
   id: number;
@@ -73,7 +73,7 @@ function CardPage({ card }: CardProps) {
         isModalOpen={isOutputModalOpen}
         setIsModalOpen={setIsOutputModalOpen}
         initialValues={{
-          description: "Pagamento " + card.description,
+          description: "Pagamento " + card.card_description,
           value: totalValue,
           date: dayjs(new Date()),
           category_id: 0,

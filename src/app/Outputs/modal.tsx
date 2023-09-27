@@ -77,6 +77,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
       console.log(error);
     }
   };
+
   useEffect(() => {
     getCategories();
     getCards();
@@ -85,7 +86,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
       if (initialValues.category_id === 0) {
         setShowDescriptionCategory(true);
       }
-      if (initialValues.payment_method_id === 2) {
+      if (initialValues.payment_method_id === 3) {
         setShowCards(true);
       }
     }
@@ -118,14 +119,14 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
             setShowDescriptionCategory(changedValues.category_id === 0);
           }
           if (Object.keys(changedValues)[0] === "payment_method_id") {
-            setShowCards(changedValues.payment_method_id === 2);
+            setShowCards(changedValues.payment_method_id === 3);
           }
         }}
       >
         <Col style={{ marginTop: 20 }}>
           <label>Descrição</label>
           <Form.Item
-            name="description"
+            name="transaction_description"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
             <Input className={styles.input} style={{ width: "95%" }} data-testid="description" />
@@ -154,8 +155,8 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
                 className={styles.input}
                 style={{ width: 200, height: 40 }}
                 options={[
-                  { value: 1, label: "Saldo" },
-                  { value: 2, label: "Cartão" },
+                  { value: 2, label: "Saldo" },
+                  { value: 3, label: "Cartão" },
                 ]}
               />
             </Form.Item>
@@ -163,7 +164,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
           {showCards ? (
             <>
               <Col>
-                <label>Descrição da Categoria:</label>
+                <label>Cartões:</label>
                 <Form.Item
                   name="card_id"
                   rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
@@ -174,7 +175,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
                     style={{ width: 200, height: 40 }}
                     options={cards.map((card) => ({
                       value: card.id,
-                      label: card.description,
+                      label: card.card_description,
                     }))}
                   />
                 </Form.Item>
@@ -236,7 +237,10 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
         </Row>
         <Col xl={15}>
           <label>Valor:</label>
-          <Form.Item name="value" rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}>
+          <Form.Item
+            name="transaction_value"
+            rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+          >
             <Input className={styles.input} placeholder="R$" data-testid="value" />
           </Form.Item>
         </Col>

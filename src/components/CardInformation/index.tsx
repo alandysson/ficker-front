@@ -6,7 +6,7 @@ import Image from "next/image";
 interface Card {
   best_day: number;
   created_at: Date;
-  description: string;
+  card_description: string;
   expiration: number;
   flag_id: number;
   id: number;
@@ -50,7 +50,7 @@ export const CardInformation = ({ card, totalValue }: CardProps) => {
             <Image src={"/visa.png"} alt="Logo" width={39} height={12} />
           )}
           <Text type="secondary" style={{ marginLeft: 10 }}>
-            {card.description}
+            {card.card_description}
           </Text>
         </Row>
         <Col>

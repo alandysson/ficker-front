@@ -39,6 +39,7 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
           type_id: 1,
+          payment_method_id: 1,
         },
       });
       message.success("Transação adicionada com sucesso!");
@@ -98,7 +99,7 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
         <Col style={{ marginTop: 20 }}>
           <label>Descrição</label>
           <Form.Item
-            name="description"
+            name="transaction_description"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
             <Input className={styles.input} style={{ width: "95%" }} />
@@ -149,7 +150,10 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
         </Row>
         <Col style={{ marginBottom: 20 }} xl={15}>
           <label>Valor:</label>
-          <Form.Item name="value" rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}>
+          <Form.Item
+            name="transaction_value"
+            rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+          >
             <Input className={styles.input} placeholder="R$" />
           </Form.Item>
         </Col>

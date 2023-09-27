@@ -14,7 +14,7 @@ import SearchField from "@/components/SearchField";
 interface Card {
   best_day: number;
   created_at: Date;
-  description: string;
+  card_description: string;
   expiration: number;
   flag_id: number;
   id: number;
@@ -72,7 +72,7 @@ const Cards = () => {
           <div className={styles.titleArea}>
             <div>
               <h3>{`Meus cartões ${
-                Object.keys(selectedCard).length > 0 ? "> " + selectedCard.description : ""
+                Object.keys(selectedCard).length > 0 ? "> " + selectedCard.card_description : ""
               }`}</h3>
             </div>
             <div className={styles.buttonsArea}>
@@ -116,7 +116,7 @@ const Cards = () => {
                               <Image src={"/visa.png"} alt="Logo" width={39} height={12} />
                             )}
                             <Text type="secondary" style={{ marginLeft: 10 }}>
-                              {card.description}
+                              {card.card_description}
                             </Text>
                           </Row>
                           <Col>

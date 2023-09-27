@@ -8,7 +8,7 @@ import { ITransaction } from "@/interfaces";
 
 interface TransactionTabProps {
   data: ITransaction[];
-  }
+}
 export const TransactionTab = ({ data }: TransactionTabProps) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
@@ -17,9 +17,9 @@ export const TransactionTab = ({ data }: TransactionTabProps) => {
   };
 
   const formatCurrency = (value: any) => {
-    const formattedValue = parseFloat(value).toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
+    const formattedValue = parseFloat(value).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
     });
     return formattedValue;
   };
@@ -36,7 +36,7 @@ export const TransactionTab = ({ data }: TransactionTabProps) => {
             <th>Data</th>
             <th>Categoria</th>
             <th>Valor</th>
-                      </tr>
+          </tr>
         </thead>
         <tbody>
           <>
@@ -52,13 +52,14 @@ export const TransactionTab = ({ data }: TransactionTabProps) => {
                     <Image src="/edit.png" alt="Editar" width={20} height={20} />
                   </button>
                 </td>
-                <td className={styles.tdDescription}>{transaction.description}</td>
+                <td className={styles.tdDescription}>{transaction.transaction_description}</td>
                 <td className={styles.tdDate}>{dayjs(transaction.date).format("DD/MM/YYYY")}</td>
                 <td className={styles.tdCategory}>{transaction.category_description}</td>
                 <td className={styles.tdValue} style={{ color: transaction.type_id === 1 ? "green" : "red" }}>
-                  {transaction.type_id === 1 ? " " : "-"}{formatCurrency(transaction.value)}
+                  {transaction.type_id === 1 ? " " : "-"}
+                  {formatCurrency(transaction.transaction_value)}
                 </td>
-                              </tr>
+              </tr>
             ))}
           </>
         </tbody>

@@ -25,6 +25,7 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setShowDescriptionCategory(false);
     form.resetFields();
   };
 
@@ -50,7 +51,8 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
-          type_id: 3,
+          type_id: 2,
+          payment_method_id: 3,
           card_id: cardId,
         },
       });
@@ -100,7 +102,7 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
         <Col>
           <label>Descrição</label>
           <Form.Item
-            name="description"
+            name="transaction_description"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
             <Input className={styles.input} style={{ width: "95%" }} data-testid="description" />
@@ -168,7 +170,10 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
         </Col>
         <Col style={{ marginBottom: 20 }} xl={15}>
           <label>Valor:</label>
-          <Form.Item name="value" rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}>
+          <Form.Item
+            name="transaction_value"
+            rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+          >
             <Input className={styles.input} placeholder="R$" data-testid="value" />
           </Form.Item>
         </Col>

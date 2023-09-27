@@ -9,20 +9,20 @@ const LastTransactionsList = () => {
 
   const getTransactions = async () => {
     try {
-      const response = await request({
+      const { data } = await request({
         method: "GET",
-        endpoint: "transactions/type/1",
+        endpoint: "transactions",
       });
-      setTransactions(response.data);
+      setTransactions(data.transactions);
     } catch (error) {
       console.log(error);
     }
   };
 
   const formatCurrency = (value: any) => {
-    const formattedValue = parseFloat(value).toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
+    const formattedValue = parseFloat(value).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
     });
     return formattedValue;
   };
@@ -40,17 +40,13 @@ const LastTransactionsList = () => {
             <div className="transaction-area" key={transaction.id}>
               <div className="transaction-area__infos">
                 <Image
-                  src={
-                    transaction.type_id === 1
-                      ? "/icons/icon-income.svg"
-                      : "/icons/icon-expense.svg"
-                  }
+                  src={transaction.type_id === 1 ? "/icons/icon-income.svg" : "/icons/icon-expense.svg"}
                   alt="icon-search"
                   width={25}
                   height={25}
                 />
                 <div className="transaction-area__description">
-                  <p>{transaction.description}</p>
+                  <p>{transaction.transaction_description}</p>
                   <span>{transaction.type_id === 1 ? "Entrada" : "Saída"}</span>
                 </div>
               </div>
@@ -58,12 +54,15 @@ const LastTransactionsList = () => {
                 className="transaction-area__value"
                 style={{ color: transaction.type_id === 1 ? "green" : "red" }}
               >
-                {transaction.type_id === 1 ? " " : "-"}{formatCurrency(transaction.value)}
+                {transaction.type_id === 1 ? " " : "-"}
+                {formatCurrency(transaction.transaction_value)}
               </div>
             </div>
           ))
         ) : (
-          <p style={{color: "#80818191", fontSize: "small", textAlign: "center"}}>Nenhuma transação encontrada.</p>
+          <p style={{ color: "#80818191", fontSize: "small", textAlign: "center" }}>
+            Nenhuma transação encontrada.
+          </p>
         )}
       </div>
     </div>

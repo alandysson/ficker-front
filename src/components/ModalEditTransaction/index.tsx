@@ -107,11 +107,11 @@ export const EditTransactionModal = ({
         name="basic"
         data-testid="form"
         initialValues={{
-          description: transaction.description,
+          description: transaction.transaction_description,
           date: dayjs(transaction.date),
           category_id: transaction.category_id,
           installments: transaction.installments,
-          value: transaction.value,
+          value: transaction.transaction_value,
         }}
         onFinish={handleFinish}
         onFinishFailed={(errorInfo) => console.log(errorInfo)}
