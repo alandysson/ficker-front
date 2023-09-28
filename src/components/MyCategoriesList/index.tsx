@@ -52,24 +52,6 @@ const MyCategoriesList = () => {
 
   useEffect(() => {
     getCategories();
-    setCategories([
-      {
-        category_description: "Categoria 1",
-        amount: 100,
-      },
-      {
-        category_description: "Categoria 2",
-        amount: 200,
-      },
-      {
-        category_description: "Categoria 3",
-        amount: 150,
-      },
-      {
-        category_description: "Categoria 4",
-        amount: 300,
-      },
-    ]);
   }, []);
 
   return (
@@ -80,18 +62,27 @@ const MyCategoriesList = () => {
           <img src="/icons/icon-more.svg" alt="new_category" />
         </a>
       </div>
-      <ModalNewCategory isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <ModalNewCategory
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
       <div className="categories-area">
         {categories?.map((category, index) => (
           <div className="category-area" key={index}>
             <div className="category-area__infos">
               <span
-                style={{ background: colorPalette[index % colorPalette.length] }}
+                style={{
+                  background: colorPalette[index % colorPalette.length],
+                }}
                 className="circle"
               ></span>
-              <div className="category-area__description">{category.category_description}</div>
+              <div className="category-area__description">
+                {category.category_description}
+              </div>
             </div>
-            <div className="category-area__value">{formatCurrency(category.amount)}</div>
+            <div className="category-area__value">
+              {formatCurrency(category.amount)}
+            </div>
           </div>
         ))}
       </div>
