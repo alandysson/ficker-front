@@ -47,7 +47,11 @@ const items: MenuItem[] = [
     "4",
     <Image src="/cartoes-de-credito.svg" alt="Logo" width={25} height={25} />
   ),
-  getItem("Análises", "5", <Image src="/analise.svg" alt="Logo" width={25} height={25} />),
+  getItem(
+    <Link href={"/analysis"}>Análises</Link>,
+    "5",
+    <Image src="/analise.svg" alt="Logo" width={25} height={25} />
+  ),
   getItem("Meu perfil", "6", <Image src="/perfil2.svg" alt="Logo" width={25} height={25} />),
   getItem(
     "Sair",

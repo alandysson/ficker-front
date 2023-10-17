@@ -15,6 +15,17 @@ interface BalanceProps {
   real_spending: number;
 }
 
+export const formatCurrency = (value: any) => {
+  if (!value) {
+    return null;
+  }
+  const formattedValue = parseFloat(value).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+  return formattedValue;
+};
+
 const Resume = () => {
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -41,9 +52,7 @@ const Resume = () => {
   const dateRange = `${firstDayOfMonth.getDate()} de ${monthName} - ${lastDayOfMonth.getDate()} de ${monthName}`;
 
   const [showSaldo, setShowSaldo] = useState(true);
-  const [iconShowSaldo, setIconShowSaldo] = useState(
-    "/icons/icon-hide-saldo.svg"
-  );
+  const [iconShowSaldo, setIconShowSaldo] = useState("/icons/icon-hide-saldo.svg");
   const [isEditMode, setIsEditMode] = useState(false);
   const [gastoPlanejado, setGastoPlanejado] = useState("0");
 
@@ -90,17 +99,6 @@ const Resume = () => {
     }
   };
 
-  const formatCurrency = (value: any) => {
-    if (!value) {
-      return null;
-    }
-    const formattedValue = parseFloat(value).toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-    return formattedValue;
-  };
-
   useEffect(() => {
     getBalance();
   }, []);
@@ -108,10 +106,7 @@ const Resume = () => {
   return (
     <div>
       <div style={{ background: "#fff", padding: 10, alignItems: "center" }}>
-        <Link
-          href={"/"}
-          style={{ background: "#fff", padding: 10, alignItems: "center" }}
-        >
+        <Link href={"/"} style={{ background: "#fff", padding: 10, alignItems: "center" }}>
           <Image src="/logo.png" alt="Logo" width={130} height={27} />
         </Link>
       </div>
@@ -125,9 +120,7 @@ const Resume = () => {
               </div>
             </div>
             <div>
-              <span style={{ color: "#808191", fontSize: "small" }}>
-                {dateRange}
-              </span>
+              <span style={{ color: "#808191", fontSize: "small" }}>{dateRange}</span>
             </div>
           </Row>
           <Row justify={"space-between"}>
@@ -171,9 +164,7 @@ const Resume = () => {
                 >
                   <Row align={"middle"} justify={"space-between"}>
                     <Col style={{ marginRight: 10 }}>
-                      <p className={styles.balance_description}>
-                        Gasto Planejado
-                      </p>
+                      <p className={styles.balance_description}>Gasto Planejado</p>
                       {isEditMode ? (
                         <input
                           type="number"
@@ -195,9 +186,7 @@ const Resume = () => {
                           }}
                         />
                       ) : (
-                        <p className={styles.balance_title}>
-                          {formatCurrency(balance.planned_spending)}
-                        </p>
+                        <p className={styles.balance_title}>{formatCurrency(balance.planned_spending)}</p>
                       )}
                     </Col>
                     {!isEditMode ? (
@@ -219,9 +208,7 @@ const Resume = () => {
                 </Col>
                 <Col className={styles.balance} xl={11} lg={11} md={10} xs={15}>
                   <p className={styles.balance_description}>Gasto Real</p>
-                  <p className={styles.balance_title}>
-                    {formatCurrency(balance.real_spending)}
-                  </p>
+                  <p className={styles.balance_title}>{formatCurrency(balance.real_spending)}</p>
                 </Col>
               </Row>
             </Col>
