@@ -7,6 +7,8 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "../resume/resume.module.scss";
 import { formatCurrency } from "../resume/page";
+import ExpensesByCategoryChartContainer from "@/components/ExpensesByCategoryChartContainer";
+import PlannedSpendingByRealSpendingChartContainer from "@/components/PlannedSpendingByRealSppendingChartContainer";
 
 const Analysis = () => {
   return (
@@ -80,9 +82,9 @@ const Analysis = () => {
               </Col>
             </Col>
           </Row>
-          <Row justify={"space-between"} style={{ marginTop: 60 }}>
+          <Row justify={"space-between"} style={{ marginTop: 10 }}>
             <Col xl={13} lg={10} md={10} xs={22} style={{ marginBottom: 20 }}>
-              <MyCategoriesList />
+              <ExpensesByCategoryChartContainer/>
             </Col>
             <Col xl={9} lg={10} md={13} xs={22}>
               <LastTransactionsList />
