@@ -84,7 +84,7 @@ const Analysis = () => {
           </Row>
           <Row justify={"space-between"} style={{ marginTop: 10 }}>
             <Col xl={13} lg={10} md={10} xs={22} style={{ marginBottom: 20 }}>
-              <ExpensesByCategoryChartContainer/>
+              <ExpensesByCategoryChartContainer />
             </Col>
             <Col xl={9} lg={10} md={13} xs={22}>
               <LastTransactionsList />
