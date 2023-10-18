@@ -18,7 +18,7 @@ const MyCategoriesList = () => {
         method: "GET",
         endpoint: "categories",
       });
-      setCategories(data);
+      setCategories(data.data.categories);
     } catch (error) {
       console.log(error);
     }
@@ -62,10 +62,7 @@ const MyCategoriesList = () => {
           <img src="/icons/icon-more.svg" alt="new_category" />
         </a>
       </div>
-      <ModalNewCategory
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-      />
+      <ModalNewCategory isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       <div className="categories-area">
         {categories?.map((category, index) => (
           <div className="category-area" key={index}>
@@ -76,13 +73,9 @@ const MyCategoriesList = () => {
                 }}
                 className="circle"
               ></span>
-              <div className="category-area__description">
-                {category.category_description}
-              </div>
+              <div className="category-area__description">{category.category_description}</div>
             </div>
-            <div className="category-area__value">
-              {formatCurrency(category.amount)}
-            </div>
+            <div className="category-area__value">{formatCurrency(category.amount)}</div>
           </div>
         ))}
       </div>
