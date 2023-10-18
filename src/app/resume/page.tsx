@@ -15,22 +15,22 @@ interface BalanceProps {
   real_spending: number;
 }
 
-export const formatCurrency = (value: any) => {
-  if (!value) {
-    return null;
-  }
-  const formattedValue = parseFloat(value).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  });
-  return formattedValue;
-};
-
 const Resume = () => {
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
   const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
   const [balance, setBalance] = useState<BalanceProps>({} as BalanceProps);
+
+  const formatCurrency = (value: any) => {
+    if (!value) {
+      return null;
+    }
+    const formattedValue = parseFloat(value).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+    return formattedValue;
+  };
 
   const monthNames = [
     "Janeiro",

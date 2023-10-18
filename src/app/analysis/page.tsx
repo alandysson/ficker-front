@@ -1,16 +1,24 @@
 "use client";
 import CustomMenu from "@/components/CustomMenu";
 import LastTransactionsList from "@/components/LastTransactionsList";
-import MyCategoriesList from "@/components/MyCategoriesList";
-import { Col, Row, Button, Progress } from "antd";
+import { Col, Row } from "antd";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../resume/resume.module.scss";
-import { formatCurrency } from "../resume/page";
 import ExpensesByCategoryChartContainer from "@/components/ExpensesByCategoryChartContainer";
-import PlannedSpendingByRealSpendingChartContainer from "@/components/PlannedSpendingByRealSppendingChartContainer";
 
 const Analysis = () => {
+  const formatCurrency = (value: any) => {
+    if (!value) {
+      return null;
+    }
+    const formattedValue = parseFloat(value).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+    return formattedValue;
+  };
+
   return (
     <div>
       <div style={{ background: "#fff", padding: 10, alignItems: "center" }}>
