@@ -45,11 +45,12 @@ function CardPage({ card }: CardProps) {
     try {
       const response = await request({
         method: "GET",
-        endpoint: `transactions/card/${card.id}`,
+        endpoint: `transaction/card/${card.id}`,
       });
-      if (response.data.length > 0) {
-        setCardTransactions(response.data);
-      }
+      // if (response.data.length > 0) {
+      //   setCardTransactions(response.data);
+      // }
+      console.log(response);
     } catch (error) {}
   };
 
