@@ -11,7 +11,7 @@ const LastTransactionsList = () => {
     try {
       const { data } = await request({
         method: "GET",
-        endpoint: "transactions",
+        endpoint: "transaction/all",
       });
       setTransactions(data.transactions);
     } catch (error) {

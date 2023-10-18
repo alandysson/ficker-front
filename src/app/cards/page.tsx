@@ -20,7 +20,7 @@ interface Card {
   id: number;
   updated_at: Date;
   user_id: number;
-  invoice: number;
+  // invoice: number; // TODO: voltar quando arrumar
 }
 
 const Cards = () => {
@@ -121,7 +121,7 @@ const Cards = () => {
                           </Row>
                           <Col>
                             <Text type="secondary">Próxima fatura:</Text>
-                            <Title level={4}>R$ {card.invoice}</Title>
+                            {/* TODO: <Title level={4}>R$ {card.invoice}</Title> */}
                           </Col>
                           <Row justify={"end"}>
                             <Col>

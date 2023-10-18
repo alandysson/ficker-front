@@ -21,7 +21,7 @@ const EnterTransaction = () => {
     try {
       const response = await request({
         method: "GET",
-        endpoint: "transactions/type/1",
+        endpoint: "transaction/type/1",
         loaderStateSetter: setLoading,
       });
       setTransactions(response.data);

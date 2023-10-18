@@ -24,6 +24,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
   const [showDescriptionCategory, setShowDescriptionCategory] = useState(false);
   const [showCards, setShowCards] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
   const [form] = Form.useForm();
   const [cards, setCards] = useState<Card[]>([]);
 
@@ -34,6 +35,15 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
     setShowCards(false);
   };
 
+  const getPaymentMethods = async () => {
+    try {
+      const response = await request({
+        endpoint: "payment/methods",
+      });
+      setPaymentMethods(response.data.data.paymentMethods);
+      console.log(response.data);
+    } catch (error) {}
+  };
   const getCategories = async () => {
     try {
       const response = await request({
@@ -81,6 +91,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
   useEffect(() => {
     getCategories();
     getCards();
+    getPaymentMethods();
     if (initialValues) {
       form.setFieldsValue(initialValues);
       if (initialValues.category_id === 0) {
@@ -119,7 +130,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
             setShowDescriptionCategory(changedValues.category_id === 0);
           }
           if (Object.keys(changedValues)[0] === "payment_method_id") {
-            setShowCards(changedValues.payment_method_id === 3);
+            setShowCards(changedValues.payment_method_id === 4);
           }
         }}
       >
@@ -154,10 +165,10 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
                 data-testid="payment_method_id"
                 className={styles.input}
                 style={{ width: 200, height: 40 }}
-                options={[
-                  { value: 2, label: "Saldo" },
-                  { value: 3, label: "Cartão" },
-                ]}
+                options={paymentMethods?.map((paymentMethod) => ({
+                  value: paymentMethod.id,
+                  label: paymentMethod.description,
+                }))}
               />
             </Form.Item>
           </Col>
