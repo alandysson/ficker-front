@@ -22,7 +22,7 @@ const Outputs = () => {
     try {
       const response = await request({
         method: "GET",
-        endpoint: "transactions/type/2",
+        endpoint: "transaction/type/2",
         loaderStateSetter: setLoading,
       });
       setTransactions(response.data);
