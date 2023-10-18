@@ -13,7 +13,7 @@ const LastTransactionsList = () => {
         method: "GET",
         endpoint: "transaction/all",
       });
-      setTransactions(data.transactions);
+      setTransactions(data.data.transactions);
     } catch (error) {
       console.log(error);
     }

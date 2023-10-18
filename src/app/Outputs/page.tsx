@@ -25,7 +25,7 @@ const Outputs = () => {
         endpoint: "transaction/type/2",
         loaderStateSetter: setLoading,
       });
-      setTransactions(response.data);
+      setTransactions(response.data.data.transactions);
     } catch (error) {
       console.log(error);
     }

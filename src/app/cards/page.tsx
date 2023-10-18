@@ -20,7 +20,7 @@ interface Card {
   id: number;
   updated_at: Date;
   user_id: number;
-  // invoice: number; // TODO: voltar quando arrumar
+  invoice: number;
 }
 
 const Cards = () => {
@@ -41,7 +41,7 @@ const Cards = () => {
         endpoint: "cards",
         loaderStateSetter: setLoading,
       });
-      setCards(response.data);
+      setCards(response.data.data.cards);
     } catch (error) {
       console.log(error);
     }
@@ -121,7 +121,7 @@ const Cards = () => {
                           </Row>
                           <Col>
                             <Text type="secondary">Próxima fatura:</Text>
-                            {/* TODO: <Title level={4}>R$ {card.invoice}</Title> */}
+                            <Title level={4}>R$ {card.invoice}</Title>
                           </Col>
                           <Row justify={"end"}>
                             <Col>

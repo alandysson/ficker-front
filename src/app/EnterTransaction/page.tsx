@@ -24,7 +24,7 @@ const EnterTransaction = () => {
         endpoint: "transaction/type/1",
         loaderStateSetter: setLoading,
       });
-      setTransactions(response.data);
+      setTransactions(response.data.data.transactions);
     } catch (error) {
       console.log(error);
     }

@@ -47,10 +47,9 @@ function CardPage({ card }: CardProps) {
         method: "GET",
         endpoint: `transaction/card/${card.id}`,
       });
-      // if (response.data.length > 0) {
-      //   setCardTransactions(response.data);
-      // }
-      console.log(response);
+      if (response.data.data.transactions.length > 0) {
+        setCardTransactions(response.data.data.transactions);
+      }
     } catch (error) {}
   };
 

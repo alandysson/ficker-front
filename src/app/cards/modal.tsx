@@ -31,7 +31,7 @@ export const NewCardModal = ({ isModalOpen, setIsModalOpen }: CardModalProps) =>
         method: "GET",
         endpoint: "flags",
       });
-      setFlags(response.data);
+      setFlags(response.data.data.flags);
     } catch (error) {
       console.log(error);
     }
