@@ -40,8 +40,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
       const response = await request({
         endpoint: "payment/methods",
       });
-      setPaymentMethods(response.data.data.paymentMethods);
-      console.log(response.data);
+      setPaymentMethods(response.data.data.payment_methods);
     } catch (error) {}
   };
   const getCategories = async () => {
