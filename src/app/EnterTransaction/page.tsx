@@ -15,6 +15,7 @@ const EnterTransaction = () => {
   3;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
 
   const getTransactions = async () => {
@@ -58,7 +59,12 @@ const EnterTransaction = () => {
               </button>
             </div>
           </div>
-          <TransactionTab data={transactions} />
+          <TransactionTab
+            data={transactions}
+            typeId={1}
+            editModal={isEditModalOpen}
+            setEditModal={setIsEditModalOpen}
+          />
         </div>
       </div>
     </div>

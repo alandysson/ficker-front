@@ -30,6 +30,7 @@ function CardPage({ card }: CardProps) {
   const [isOutputModalOpen, setIsOutputModalOpen] = useState<boolean>(false);
   const [totalValue, setTotalValue] = useState<number>(0);
   const [cardTranscations, setCardTransactions] = useState<ITransaction[]>([]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
   const getCardTotalValue = async () => {
     try {
@@ -82,7 +83,12 @@ function CardPage({ card }: CardProps) {
       />
       <Row>
         <Col xl={14} lg={20} md={20} xs={20}>
-          <TransactionTab data={cardTranscations} />
+          <TransactionTab
+            data={cardTranscations}
+            typeId={3}
+            editModal={isEditModalOpen}
+            setEditModal={setIsEditModalOpen}
+          />
         </Col>
         <Col xl={6} lg={12} md={20} xs={21}>
           <Col>
