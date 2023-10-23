@@ -38,7 +38,7 @@ export const EditTransactionModal = ({
     try {
       const response = await request({
         method: "DELETE",
-        endpoint: `transactions/delete/${transaction.id}`,
+        endpoint: `transaction/${transaction.id}`,
       });
       message.success("Transação deletada com sucesso!");
       handleCancel();
@@ -65,7 +65,7 @@ export const EditTransactionModal = ({
       console.log(values);
       await request({
         method: "PUT",
-        endpoint: `transactions/update/${transaction.id}`,
+        endpoint: `transaction/${transaction.id}`,
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),

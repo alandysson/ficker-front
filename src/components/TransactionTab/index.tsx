@@ -3,17 +3,26 @@ import styles from "./transactiontab.module.scss";
 import dayjs from "dayjs";
 import Image from "next/image";
 import { EditTransactionModal } from "@/components/ModalEditTransaction";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ITransaction } from "@/interfaces";
 
 interface TransactionTabProps {
   data: ITransaction[];
+  typeId: number;
+  editModal: boolean;
+  setEditModal: (value: boolean) => void;
 }
-export const TransactionTab = ({ data }: TransactionTabProps) => {
-  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+export const TransactionTab = ({ data, typeId, editModal, setEditModal }: TransactionTabProps) => {
+  const [selectedTransaction, setSelectedTransaction] = useState<ITransaction>({} as ITransaction);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const openEditModal = () => {
-    setIsEditModalOpen(true);
+  const openEditModal = (transcation: ITransaction) => {
+    setEditModal(true);
+    setSelectedTransaction(transcation);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1);
   };
 
   const formatCurrency = (value: any) => {
@@ -24,7 +33,7 @@ export const TransactionTab = ({ data }: TransactionTabProps) => {
     return formattedValue;
   };
 
-  useEffect(() => {}, [isEditModalOpen]);
+  if (loading) return <div>Carregando...</div>;
 
   return (
     <Col xs={20} lg={24}>
@@ -40,15 +49,18 @@ export const TransactionTab = ({ data }: TransactionTabProps) => {
         </thead>
         <tbody>
           <>
+            <EditTransactionModal
+              isModalOpen={editModal}
+              setIsModalOpen={setEditModal}
+              transaction={{ ...selectedTransaction, type_id: typeId }}
+            />
             {data?.map((transaction) => (
               <tr key={transaction.id}>
-                <EditTransactionModal
-                  isModalOpen={isEditModalOpen}
-                  setIsModalOpen={setIsEditModalOpen}
-                  transaction={transaction}
-                />
                 <td className={styles.tdEdit}>
-                  <button style={{ background: "none", border: "none" }} onClick={openEditModal}>
+                  <button
+                    style={{ background: "none", border: "none" }}
+                    onClick={() => openEditModal(transaction)}
+                  >
                     <Image src="/edit.png" alt="Editar" width={20} height={20} />
                   </button>
                 </td>
