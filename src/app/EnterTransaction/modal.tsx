@@ -39,7 +39,6 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
           type_id: 1,
-          payment_method_id: 1,
         },
       });
       message.success("Transação adicionada com sucesso!");
