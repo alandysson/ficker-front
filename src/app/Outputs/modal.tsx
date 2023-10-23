@@ -151,6 +151,9 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
               className={styles.input}
               placeholder="dd/mm/aaaa"
               format={"DD/MM/YYYY"}
+              disabledDate={(current) => {
+                return current && current > dayjs().endOf("day");
+              }}
             />
           </Form.Item>
         </Col>

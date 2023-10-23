@@ -117,6 +117,9 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
               className={styles.input}
               placeholder="dd/mm/aaaa"
               format={"DD/MM/YYYY"}
+              disabledDate={(current) => {
+                return current && current > dayjs().endOf("day");
+              }}
             />
           </Form.Item>
         </Col>

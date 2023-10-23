@@ -140,6 +140,9 @@ export const EditTransactionModal = ({
               placeholder="dd/mm/aaaa"
               format={"DD/MM/YYYY"}
               defaultValue={dayjs(transaction.date)}
+              disabledDate={(current) => {
+                return current && current > dayjs().endOf("day");
+              }}
             />
           </Form.Item>
         </Col>
