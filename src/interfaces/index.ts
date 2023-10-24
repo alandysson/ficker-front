@@ -9,6 +9,7 @@ export interface ITransaction {
   type_id: number;
   transaction_value: number;
   installments: number;
+  payment_method_id: number;
   created_at: Date;
   updated_at: Date;
 }

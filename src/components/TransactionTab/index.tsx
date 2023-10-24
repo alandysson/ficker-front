@@ -45,6 +45,7 @@ export const TransactionTab = ({ data, typeId, editModal, setEditModal }: Transa
             <th>Data</th>
             <th>Categoria</th>
             <th>Valor</th>
+            {typeId === 2 && <th>Pagamento</th>}
           </tr>
         </thead>
         <tbody>
@@ -71,6 +72,10 @@ export const TransactionTab = ({ data, typeId, editModal, setEditModal }: Transa
                   {transaction.type_id === 1 ? " " : "-"}
                   {formatCurrency(transaction.transaction_value)}
                 </td>
+                {typeId === 2 &&
+                <td>
+                  <div style={{ backgroundColor: "#DBDEFF", color:"#6C5DD3", paddingInline:"20px", borderRadius:"95px", textAlign:"center", fontSize:"small"}}>{transaction.payment_method_id}</div>
+                </td>}
               </tr>
             ))}
           </>
