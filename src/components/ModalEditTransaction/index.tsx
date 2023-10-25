@@ -107,7 +107,7 @@ export const EditTransactionModal = ({
         name="basic"
         data-testid="form"
         initialValues={{
-          description: transaction.transaction_description,
+          transaction_description: transaction.transaction_description,
           date: dayjs(transaction.date),
           category_id: transaction.category_id,
           installments: transaction.installments,
@@ -124,7 +124,7 @@ export const EditTransactionModal = ({
         <Col>
           <label>Descrição</label>
           <Form.Item
-            name="description"
+            name="transaction_description"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
             <Input className={styles.input} style={{ width: "95%" }} data-testid="description" />

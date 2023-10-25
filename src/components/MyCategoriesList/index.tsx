@@ -5,7 +5,7 @@ import { ModalNewCategory } from "../ModalNewCategory";
 
 interface AmountByCategory {
   category_description: string;
-  amount: number;
+  category_spending: number;
 }
 
 const MyCategoriesList = () => {
@@ -36,6 +36,7 @@ const MyCategoriesList = () => {
       });
       return formattedValue;
     }
+    return "R$ 0,00";
   };
 
   const colorPalette = [
@@ -75,7 +76,7 @@ const MyCategoriesList = () => {
               ></span>
               <div className="category-area__description">{category.category_description}</div>
             </div>
-            <div className="category-area__value">{formatCurrency(category.amount)}</div>
+            <div className="category-area__value">{formatCurrency(category.category_spending)}</div>
           </div>
         ))}
       </div>

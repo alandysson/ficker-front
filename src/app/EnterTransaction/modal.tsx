@@ -11,14 +11,15 @@ interface EnterTransactionModalProps {
   setIsModalOpen: (value: boolean) => void;
 }
 
+interface Category {
+  id: number;
+  category_description: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
 export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTransactionModalProps) => {
   const [showDescriptionCategory, setShowDescriptionCategory] = useState(false);
-  interface Category {
-    id: number;
-    category_description: string;
-    created_at: Date;
-    updated_at: Date;
-  }
   const [categories, setCategories] = useState<Category[]>([]);
 
   const [form] = Form.useForm();
@@ -39,6 +40,7 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
           type_id: 1,
+          payment_method_id: null,
         },
       });
       message.success("Transação adicionada com sucesso!");

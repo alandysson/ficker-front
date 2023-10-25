@@ -81,7 +81,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
         method: "GET",
         endpoint: "cards",
       });
-      setCards(response.data);
+      setCards(response.data.data.cards);
     } catch (error) {
       console.log(error);
     }
