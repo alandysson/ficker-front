@@ -33,6 +33,19 @@ export const TransactionTab = ({ data, typeId, editModal, setEditModal }: Transa
     return formattedValue;
   };
 
+  const getPaymentMethodName = (id: number) => {
+    switch (id) {
+      case 1:
+        return "Dinheiro";
+      case 2:
+        return "Pix";
+      case 3:
+        return "Cartão de Crédito";
+      default:
+        return "Cartão de Débito";
+    }
+  };
+
   if (loading) return <div>Carregando...</div>;
 
   return (
@@ -72,10 +85,22 @@ export const TransactionTab = ({ data, typeId, editModal, setEditModal }: Transa
                   {transaction.type_id === 1 ? " " : "-"}
                   {formatCurrency(transaction.transaction_value)}
                 </td>
-                {typeId === 2 &&
-                <td>
-                  <div style={{ backgroundColor: "#DBDEFF", color:"#6C5DD3", paddingInline:"20px", borderRadius:"95px", textAlign:"center", fontSize:"small"}}>{transaction.payment_method_id}</div>
-                </td>}
+                {typeId === 2 && (
+                  <td>
+                    <div
+                      style={{
+                        backgroundColor: "#DBDEFF",
+                        color: "#6C5DD3",
+                        paddingInline: "20px",
+                        borderRadius: "95px",
+                        textAlign: "center",
+                        fontSize: "small",
+                      }}
+                    >
+                      {getPaymentMethodName(transaction.payment_method_id)}
+                    </div>
+                  </td>
+                )}
               </tr>
             ))}
           </>

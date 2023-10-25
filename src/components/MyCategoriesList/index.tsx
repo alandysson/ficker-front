@@ -52,7 +52,7 @@ const MyCategoriesList = () => {
 
   useEffect(() => {
     getCategories();
-  }, []);
+  }, [isModalOpen]);
 
   return (
     <div className="card">
