@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { request } from "@/service/api";
+import "./styles.scss";
 import PlannedSpendingByRealSpendingChart from "../PlannedSpendingByRealSpendingChart";
 
 interface PlannedByMonth {
@@ -28,7 +29,7 @@ const PlannedSpendingByRealSpendingChartContainer = () => {
       }, []);
 
     return (
-        <div className="card">
+        <div className="card-chart" style={{width: "100%"}}>
             <h4>Gastos Planejados por Mês</h4>
             <PlannedSpendingByRealSpendingChart/>
         </div>

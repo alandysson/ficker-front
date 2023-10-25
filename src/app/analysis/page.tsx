@@ -6,6 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "../resume/resume.module.scss";
 import ExpensesByCategoryChartContainer from "@/components/ExpensesByCategoryChartContainer";
+import PlannedSpendingByRealSpendingChartContainer from "@/components/PlannedSpendingByRealSppendingChartContainer";
+import AnalysesByMonthChartContainer from "@/components/AnalysesByMonthChartContainer";
 
 const Analysis = () => {
   const formatCurrency = (value: any) => {
@@ -22,7 +24,10 @@ const Analysis = () => {
   return (
     <div>
       <div style={{ background: "#fff", padding: 10, alignItems: "center" }}>
-        <Link href={"/"} style={{ background: "#fff", padding: 10, alignItems: "center" }}>
+        <Link
+          href={"/"}
+          style={{ background: "#fff", padding: 10, alignItems: "center" }}
+        >
           <Image src="/logo.png" alt="Logo" width={130} height={27} />
         </Link>
       </div>
@@ -46,7 +51,9 @@ const Analysis = () => {
               xs={15}
             >
               <Col style={{ marginRight: 10 }}>
-                <p className={styles.balance_description}>Transação Mais Cara</p>
+                <p className={styles.balance_description}>
+                  Transação Mais Cara
+                </p>
                 <p className={styles.balance_title}>{formatCurrency(132)}</p>
               </Col>
             </Col>
@@ -59,7 +66,9 @@ const Analysis = () => {
               xs={15}
             >
               <Col style={{ marginRight: 10 }}>
-                <p className={styles.balance_description}>Transações de Entrada</p>
+                <p className={styles.balance_description}>
+                  Transações de Entrada
+                </p>
                 <p className={styles.balance_title}>3</p>
               </Col>
             </Col>
@@ -72,7 +81,9 @@ const Analysis = () => {
               xs={15}
             >
               <Col style={{ marginRight: 10 }}>
-                <p className={styles.balance_description}>Transações de Saída</p>
+                <p className={styles.balance_description}>
+                  Transações de Saída
+                </p>
                 <p className={styles.balance_title}>3</p>
               </Col>
             </Col>
@@ -91,11 +102,19 @@ const Analysis = () => {
             </Col>
           </Row>
           <Row justify={"space-between"} style={{ marginTop: 10 }}>
-            <Col xl={13} lg={10} md={10} xs={22} style={{ marginBottom: 20 }}>
+            <Col xl={15} lg={9} md={9} xs={22} style={{ marginBottom: 20 }}>
+              <PlannedSpendingByRealSpendingChartContainer/>
+            </Col>
+            <Col xl={7} lg={3} md={3} xs={22}>
+              <LastTransactionsList />
+            </Col>
+          </Row>
+          <Row justify="space-between" style={{ marginTop: 10 }}>
+            <Col xl={11} lg={6} md={6} xs={20} style={{ marginBottom: 20 }}>
               <ExpensesByCategoryChartContainer />
             </Col>
-            <Col xl={9} lg={10} md={13} xs={22}>
-              <LastTransactionsList />
+            <Col xl={11} lg={6} md={6} xs={20}>
+              <AnalysesByMonthChartContainer />
             </Col>
           </Row>
         </Col>

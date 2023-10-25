@@ -14,22 +14,22 @@ import {
 const data = [
   {
     name: 'Jan',
-    planned: 590,
+    planejado: 590,
     real: 800,
   },
   {
     name: 'Fev',
-    planned: 790,
+    planejado: 790,
     real: 670,
   },
   {
     name: 'Mar',
-    planned: 990,
+    planejado: 990,
     real: 700,
   },
   {
     name: 'Abr',
-    planned: 590,
+    planejado: 590,
     real: 800,
   },
 ];
@@ -39,10 +39,10 @@ export default class PlannedSpendingByRealSpendingChart extends PureComponent {
 
   render() {
     return (
-      <ResponsiveContainer width="100%" height={200}>
+      <ResponsiveContainer width={'100%'} height={200}>
         <ComposedChart
-          width={500}
-          height={400}
+          width={900}
+          height={500}
           data={data}
           margin={{
             top: 20,
@@ -56,8 +56,8 @@ export default class PlannedSpendingByRealSpendingChart extends PureComponent {
           <YAxis label={{ value: 'Valor', angle: -90, position: 'insideLeft' }} />
           <Tooltip />
           <Legend />
-          <Bar dataKey="planned" barSize={20} fill="#413ea0" />
-          <Line type="monotone" dataKey="real" stroke="#ff7300" />
+          <Bar dataKey="planejado" barSize={20} fill="#6C5DD3" />
+          <Line type="monotone" dataKey="real" stroke="#87E344" />
         </ComposedChart>
       </ResponsiveContainer>
     );
