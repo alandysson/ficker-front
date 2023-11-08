@@ -4,11 +4,23 @@ export interface ITransaction {
   category_id: number;
   category_description: string;
   card_id: number;
-  description: string;
+  transaction_description: string;
   date: Date;
   type_id: number;
-  value: number;
+  transaction_value: number;
   installments: number;
+  payment_method_id: number;
   created_at: Date;
   updated_at: Date;
+}
+
+export interface Card {
+  best_day: number;
+  created_at: Date;
+  card_description: string;
+  expiration: number;
+  flag_id: number;
+  id: number;
+  updated_at: Date;
+  user_id: number;
 }

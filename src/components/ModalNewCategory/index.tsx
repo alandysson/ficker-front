@@ -9,10 +9,7 @@ interface ModalNewCategoryProps {
   setIsModalOpen: (value: boolean) => void;
 }
 
-export const ModalNewCategory = ({
-  isModalOpen,
-  setIsModalOpen,
-}: ModalNewCategoryProps) => {
+export const ModalNewCategory = ({ isModalOpen, setIsModalOpen }: ModalNewCategoryProps) => {
   const [form] = Form.useForm();
 
   const handleCancel = () => {
@@ -23,12 +20,11 @@ export const ModalNewCategory = ({
   const handleFinish = async () => {
     try {
       const values = await form.validateFields();
-      console.log(values);
       await request({
         method: "POST",
-        endpoint: `categories`,
+        endpoint: `category/store`,
         data: {
-          ...values
+          ...values,
         },
       });
       message.success("Categoria adicionada com sucesso!");
@@ -68,24 +64,35 @@ export const ModalNewCategory = ({
         <Col>
           <label>Descrição</label>
           <Form.Item
-            name="description"
+            name="category_description"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
             <Input className={styles.input} style={{ width: "95%" }} data-testid="description" />
           </Form.Item>
         </Col>
         <Col>
-        <label>Tipo:</label>
-        <Form.Item
+          <label>Tipo:</label>
+          <Form.Item
             name="type_id"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
-        >
-            <Select data-testid="type_id" className={styles.input} style={{ width: 150, height: 35 }} defaultValue={0}>
-                <Select.Option key={0} value={0} disabled>Selecione o tipo de categoria</Select.Option>
-                <Select.Option key={1} value={1}>Entrada</Select.Option>
-                <Select.Option key={2} value={2}>Saída</Select.Option>
+          >
+            <Select
+              data-testid="type_id"
+              className={styles.input}
+              style={{ width: 150, height: 35 }}
+              defaultValue={0}
+            >
+              <Select.Option key={0} value={0} disabled>
+                Selecione o tipo de categoria
+              </Select.Option>
+              <Select.Option key={1} value={1}>
+                Entrada
+              </Select.Option>
+              <Select.Option key={2} value={2}>
+                Saída
+              </Select.Option>
             </Select>
-        </Form.Item>
+          </Form.Item>
         </Col>
         <Row
           style={{

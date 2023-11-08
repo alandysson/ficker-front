@@ -38,7 +38,7 @@ export const EditTransactionModal = ({
     try {
       const response = await request({
         method: "DELETE",
-        endpoint: `transactions/delete/${transaction.id}`,
+        endpoint: `transaction/${transaction.id}`,
       });
       message.success("Transação deletada com sucesso!");
       handleCancel();
@@ -65,7 +65,7 @@ export const EditTransactionModal = ({
       console.log(values);
       await request({
         method: "PUT",
-        endpoint: `transactions/update/${transaction.id}`,
+        endpoint: `transaction/${transaction.id}`,
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
@@ -107,11 +107,11 @@ export const EditTransactionModal = ({
         name="basic"
         data-testid="form"
         initialValues={{
-          description: transaction.description,
+          transaction_description: transaction.transaction_description,
           date: dayjs(transaction.date),
           category_id: transaction.category_id,
           installments: transaction.installments,
-          value: transaction.value,
+          transaction_value: transaction.transaction_value,
         }}
         onFinish={handleFinish}
         onFinishFailed={(errorInfo) => console.log(errorInfo)}
@@ -124,7 +124,7 @@ export const EditTransactionModal = ({
         <Col>
           <label>Descrição</label>
           <Form.Item
-            name="description"
+            name="transaction_description"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
             <Input className={styles.input} style={{ width: "95%" }} data-testid="description" />
@@ -140,6 +140,9 @@ export const EditTransactionModal = ({
               placeholder="dd/mm/aaaa"
               format={"DD/MM/YYYY"}
               defaultValue={dayjs(transaction.date)}
+              disabledDate={(current) => {
+                return current && current > dayjs().endOf("day");
+              }}
             />
           </Form.Item>
         </Col>
@@ -205,7 +208,10 @@ export const EditTransactionModal = ({
         ) : null}
         <Col style={{ marginBottom: 20 }} xl={15}>
           <label>Valor:</label>
-          <Form.Item name="value" rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}>
+          <Form.Item
+            name="transaction_value"
+            rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+          >
             <Input className={styles.input} placeholder="R$" data-testid="value" />
           </Form.Item>
         </Col>

@@ -2,7 +2,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./entertransaction.module.scss";
-import { Col, Row } from "antd";
 import CustomMenu from "@/components/CustomMenu";
 import { useEffect, useState } from "react";
 import { EnterTransactionModal } from "./modal";
@@ -12,19 +11,17 @@ import SearchField from "@/components/SearchField";
 import { ITransaction } from "@/interfaces";
 
 const EnterTransaction = () => {
-  3;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
   const getTransactions = async () => {
     try {
       const response = await request({
         method: "GET",
-        endpoint: "transactions/type/1",
-        loaderStateSetter: setLoading,
+        endpoint: "transaction/type/1",
       });
-      setTransactions(response.data);
+      setTransactions(response.data.data.transactions);
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +32,8 @@ const EnterTransaction = () => {
 
   useEffect(() => {
     getTransactions();
-  }, []);
+  }, [isModalOpen, isEditModalOpen]);
+
   return (
     <div>
       <div style={{ background: "#fff", padding: 10, alignItems: "center" }}>
@@ -58,7 +56,12 @@ const EnterTransaction = () => {
               </button>
             </div>
           </div>
-          <TransactionTab data={transactions} />
+          <TransactionTab
+            data={transactions}
+            typeId={1}
+            editModal={isEditModalOpen}
+            setEditModal={setIsEditModalOpen}
+          />
         </div>
       </div>
     </div>

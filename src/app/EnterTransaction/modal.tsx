@@ -1,7 +1,7 @@
 "use client";
 import { request } from "@/service/api";
 import styles from "../EnterTransaction/entertransaction.module.scss";
-import { Modal, Col, DatePicker, Row, Select, Form, Button, Input, message } from "antd";
+import { Modal, Col, DatePicker, Row, Select, Form, Button, Input, message, InputNumber } from "antd";
 import type { DatePickerProps } from "antd";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
@@ -11,14 +11,15 @@ interface EnterTransactionModalProps {
   setIsModalOpen: (value: boolean) => void;
 }
 
+interface Category {
+  id: number;
+  category_description: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
 export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTransactionModalProps) => {
   const [showDescriptionCategory, setShowDescriptionCategory] = useState(false);
-  interface Category {
-    id: number;
-    category_description: string;
-    created_at: Date;
-    updated_at: Date;
-  }
   const [categories, setCategories] = useState<Category[]>([]);
 
   const [form] = Form.useForm();
@@ -34,11 +35,12 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
       console.log(dayjs(values.date).format("YYYY-MM-DD"));
       await request({
         method: "POST",
-        endpoint: "transaction",
+        endpoint: "transaction/store",
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
           type_id: 1,
+          payment_method_id: null,
         },
       });
       message.success("Transação adicionada com sucesso!");
@@ -88,17 +90,24 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
         form={form}
         name="basic"
         onFinish={handleFinish}
+        initialValues={{
+          transaction_value: "",
+        }}
         onFinishFailed={(errorInfo) => console.log(errorInfo)}
         onValuesChange={(changedValues) => {
           if (Object.keys(changedValues)[0] === "category_id") {
             setShowDescriptionCategory(changedValues.category_id === 0);
+          }
+          if (changedValues.transaction_value) {
+            const result = changedValues.transaction_value.replace(/[^0-9]/g, "");
+            form.setFieldsValue({ transaction_value: result });
           }
         }}
       >
         <Col style={{ marginTop: 20 }}>
           <label>Descrição</label>
           <Form.Item
-            name="description"
+            name="transaction_description"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
             <Input className={styles.input} style={{ width: "95%" }} />
@@ -112,6 +121,9 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
               className={styles.input}
               placeholder="dd/mm/aaaa"
               format={"DD/MM/YYYY"}
+              disabledDate={(current) => {
+                return current && current > dayjs().endOf("day");
+              }}
             />
           </Form.Item>
         </Col>
@@ -135,19 +147,24 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
               />
             </Form.Item>
           </Col>
-          <Col>
-            <label>Descrição da Categoria:</label>
-            <Form.Item
-              name="category_description"
-              rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
-            >
-              <Input className={styles.input} />
-            </Form.Item>
-          </Col>
+          {showDescriptionCategory ? (
+            <Col>
+              <label>Descrição da Categoria:</label>
+              <Form.Item
+                name="category_description"
+                rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+              >
+                <Input className={styles.input} />
+              </Form.Item>
+            </Col>
+          ) : null}
         </Row>
         <Col style={{ marginBottom: 20 }} xl={15}>
           <label>Valor:</label>
-          <Form.Item name="value" rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}>
+          <Form.Item
+            name="transaction_value"
+            rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+          >
             <Input className={styles.input} placeholder="R$" />
           </Form.Item>
         </Col>

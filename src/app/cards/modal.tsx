@@ -11,7 +11,7 @@ interface CardModalProps {
 
 interface Flag {
   id: number;
-  description: string;
+  flag_description: string;
   created_at: Date;
   updated_at: Date;
 }
@@ -31,7 +31,7 @@ export const NewCardModal = ({ isModalOpen, setIsModalOpen }: CardModalProps) =>
         method: "GET",
         endpoint: "flags",
       });
-      setFlags(response.data);
+      setFlags(response.data.data.flags);
     } catch (error) {
       console.log(error);
     }
@@ -95,7 +95,7 @@ export const NewCardModal = ({ isModalOpen, setIsModalOpen }: CardModalProps) =>
               options={[
                 ...flags.map((flag) => ({
                   value: flag.id,
-                  label: flag.description,
+                  label: flag.flag_description,
                 })),
               ]}
             />
@@ -104,7 +104,7 @@ export const NewCardModal = ({ isModalOpen, setIsModalOpen }: CardModalProps) =>
         <Col style={{ marginTop: 20 }}>
           <label>Descrição</label>
           <Form.Item
-            name="description"
+            name="card_description"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
             <Input className={styles.input} style={{ width: "95%" }} data-testid="description" />

@@ -12,8 +12,9 @@ import { ITransaction } from "@/interfaces";
 
 const Outputs = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
-  const [loading, setLoading] = useState(false);
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -22,10 +23,9 @@ const Outputs = () => {
     try {
       const response = await request({
         method: "GET",
-        endpoint: "transactions/type/2",
-        loaderStateSetter: setLoading,
+        endpoint: "transaction/type/2",
       });
-      setTransactions(response.data);
+      setTransactions(response.data.data.transactions);
     } catch (error) {
       console.log(error);
     }
@@ -33,7 +33,7 @@ const Outputs = () => {
 
   useEffect(() => {
     getTransactions();
-  }, [isModalOpen]);
+  }, [isModalOpen, isEditModalOpen]);
 
   return (
     <div>
@@ -57,7 +57,12 @@ const Outputs = () => {
               </button>
             </div>
           </div>
-          <TransactionTab data={transactions} />
+          <TransactionTab
+            data={transactions}
+            typeId={2}
+            editModal={isEditModalOpen}
+            setEditModal={setIsEditModalOpen}
+          />
         </div>
       </div>
     </div>

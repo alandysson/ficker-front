@@ -13,7 +13,7 @@ import { ITransaction } from "@/interfaces";
 interface Card {
   best_day: number;
   created_at: Date;
-  description: string;
+  card_description: string;
   expiration: number;
   flag_id: number;
   id: number;
@@ -30,12 +30,13 @@ function CardPage({ card }: CardProps) {
   const [isOutputModalOpen, setIsOutputModalOpen] = useState<boolean>(false);
   const [totalValue, setTotalValue] = useState<number>(0);
   const [cardTranscations, setCardTransactions] = useState<ITransaction[]>([]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
   const getCardTotalValue = async () => {
     try {
       const response = await request({
         method: "GET",
-        endpoint: `card/${card.id}/invoice`,
+        endpoint: `cards/${card.id}/invoice`,
       });
       setTotalValue(response.data.data.invoice);
     } catch (error) {}
@@ -45,10 +46,10 @@ function CardPage({ card }: CardProps) {
     try {
       const response = await request({
         method: "GET",
-        endpoint: `transactions/card/${card.id}`,
+        endpoint: `transaction/card/${card.id}`,
       });
-      if (response.data.length > 0) {
-        setCardTransactions(response.data);
+      if (response.data.data.transactions.length > 0) {
+        setCardTransactions(response.data.data.transactions);
       }
     } catch (error) {}
   };
@@ -73,7 +74,7 @@ function CardPage({ card }: CardProps) {
         isModalOpen={isOutputModalOpen}
         setIsModalOpen={setIsOutputModalOpen}
         initialValues={{
-          description: "Pagamento " + card.description,
+          description: "Pagamento " + card.card_description,
           value: totalValue,
           date: dayjs(new Date()),
           category_id: 0,
@@ -82,20 +83,29 @@ function CardPage({ card }: CardProps) {
       />
       <Row>
         <Col xl={14} lg={20} md={20} xs={20}>
-          <TransactionTab data={cardTranscations} />
+          <TransactionTab
+            data={cardTranscations}
+            typeId={3}
+            editModal={isEditModalOpen}
+            setEditModal={setIsEditModalOpen}
+          />
         </Col>
         <Col xl={6} lg={12} md={20} xs={21}>
           <Col>
             <CardInformation card={card} totalValue={totalValue} />
           </Col>
-          <Col xl={22} lg={22} md={20} xs={21}>
+          <Col xl={20} lg={22} md={20} xs={21}>
             <Row justify={"end"}>
-              <button className={styles.button} onClick={openModal} style={{ marginRight: "10px" }}>
-                Nova transação
-              </button>
-              <button className={styles.button} onClick={openOutputModal}>
-                Pagar Fatura
-              </button>
+              <Col xl={12} lg={22} md={20} xs={21}>
+                <button className={styles.button} onClick={openModal}>
+                  Nova transação
+                </button>
+              </Col>
+              <Col xl={3} lg={22} md={20} xs={21} style={{ marginLeft: "80px" }}>
+                <button className={styles.button} onClick={openOutputModal}>
+                  Pagar Fatura
+                </button>
+              </Col>
             </Row>
           </Col>
         </Col>
