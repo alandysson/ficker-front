@@ -1,0 +1,17 @@
+.balance {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 10px;
+  max-height: 120px;
+
+  .balance_description {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #999;
+  }
+
+  .balance_title {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+}

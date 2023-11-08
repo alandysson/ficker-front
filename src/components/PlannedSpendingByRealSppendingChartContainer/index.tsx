@@ -15,7 +15,6 @@ const PlannedSpendingByRealSpendingChartContainer = () => {
 
   const getMonthName = (monthNumber: number) => {
     const monthName = dayjs().month(monthNumber).format("MMM");
-    console.log(monthName);
     return monthName;
   };
 
@@ -23,7 +22,6 @@ const PlannedSpendingByRealSpendingChartContainer = () => {
     try {
       const { data } = await request({ method: "GET", endpoint: "spendings?sort=month" });
       const transformedData = data.data[0].map((item: any) => {
-        console.log(item);
         return {
           name: getMonthName(item.month),
           planejado: item.planned_spending,

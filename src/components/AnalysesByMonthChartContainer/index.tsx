@@ -15,16 +15,14 @@ const AnalysesByMonthChartContainer = () => {
 
   const getMonthName = (monthNumber: number) => {
     const monthName = dayjs().month(monthNumber).format("MMM");
-    console.log(monthName);
     return monthName;
   };
 
   const getData = async () => {
     try {
       const { data } = await request({
-        endpoint: "spendings?sort=month", // TO DO ENDPOINT
+        endpoint: "spendings?sort=month",
       });
-      console.log(data.data);
       const transformedData = data.data[0].map((item: any) => ({
         mes: getMonthName(item.month),
         entrada: item.incomes,

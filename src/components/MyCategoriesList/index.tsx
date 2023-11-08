@@ -66,18 +66,24 @@ const MyCategoriesList = () => {
       <ModalNewCategory isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       <div className="categories-area">
         {categories?.map((category, index) => (
-          <div className="category-area" key={index}>
-            <div className="category-area__infos">
-              <span
-                style={{
-                  background: colorPalette[index % colorPalette.length],
-                }}
-                className="circle"
-              ></span>
-              <div className="category-area__description">{category.category_description}</div>
-            </div>
-            <div className="category-area__value">{formatCurrency(category.category_spending)}</div>
-          </div>
+          <>
+            {category.category_spending === 0 ? (
+              <p key={index}></p>
+            ) : (
+              <div className="category-area" key={index}>
+                <div className="category-area__infos">
+                  <span
+                    style={{
+                      background: colorPalette[index % colorPalette.length],
+                    }}
+                    className="circle"
+                  ></span>
+                  <div className="category-area__description">{category.category_description}</div>
+                </div>
+                <div className="category-area__value">{formatCurrency(category.category_spending)}</div>
+              </div>
+            )}
+          </>
         ))}
       </div>
     </div>
