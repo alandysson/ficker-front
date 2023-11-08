@@ -1,7 +1,7 @@
 "use client";
 import { request } from "@/service/api";
 import styles from "../EnterTransaction/entertransaction.module.scss";
-import { Modal, Col, DatePicker, Row, Select, Form, Button, Input, message } from "antd";
+import { Modal, Col, DatePicker, Row, Select, Form, Button, Input, message, InputNumber } from "antd";
 import type { DatePickerProps } from "antd";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
@@ -90,10 +90,17 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
         form={form}
         name="basic"
         onFinish={handleFinish}
+        initialValues={{
+          transaction_value: "",
+        }}
         onFinishFailed={(errorInfo) => console.log(errorInfo)}
         onValuesChange={(changedValues) => {
           if (Object.keys(changedValues)[0] === "category_id") {
             setShowDescriptionCategory(changedValues.category_id === 0);
+          }
+          if (changedValues.transaction_value) {
+            const result = changedValues.transaction_value.replace(/[^0-9]/g, "");
+            form.setFieldsValue({ transaction_value: result });
           }
         }}
       >

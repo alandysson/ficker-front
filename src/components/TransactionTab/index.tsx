@@ -40,9 +40,9 @@ export const TransactionTab = ({ data, typeId, editModal, setEditModal }: Transa
       case 2:
         return "Pix";
       case 3:
-        return "Cartão de Crédito";
-      default:
         return "Cartão de Débito";
+      default:
+        return "Cartão de Crédito";
     }
   };
 

@@ -52,7 +52,6 @@ const items: MenuItem[] = [
     "5",
     <Image src="/analise.svg" alt="Logo" width={25} height={25} />
   ),
-  getItem("Meu perfil", "6", <Image src="/perfil2.svg" alt="Logo" width={25} height={25} />),
   getItem(
     "Sair",
     "7",

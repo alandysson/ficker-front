@@ -14,6 +14,7 @@ const Outputs = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
+
   const showModal = () => {
     setIsModalOpen(true);
   };

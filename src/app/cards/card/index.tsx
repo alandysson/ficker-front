@@ -36,7 +36,7 @@ function CardPage({ card }: CardProps) {
     try {
       const response = await request({
         method: "GET",
-        endpoint: `card/${card.id}/invoice`,
+        endpoint: `cards/${card.id}/invoice`,
       });
       setTotalValue(response.data.data.invoice);
     } catch (error) {}

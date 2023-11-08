@@ -2,38 +2,50 @@ import { useEffect, useState } from "react";
 import { request } from "@/service/api";
 import "./styles.scss";
 import PlannedSpendingByRealSpendingChart from "../PlannedSpendingByRealSpendingChart";
+import dayjs from "dayjs";
 
-interface PlannedByMonth {
-    mes: string;
-    planejado: number;
-    real: number;
+export interface PlannedByMonth {
+  name: string;
+  planejado: number;
+  real: number;
 }
 
 const PlannedSpendingByRealSpendingChartContainer = () => {
+  const [data, setData] = useState<PlannedByMonth[]>([]);
 
-    const [data, setData] = useState<PlannedByMonth[]>([]);
+  const getMonthName = (monthNumber: number) => {
+    const monthName = dayjs().month(monthNumber).format("MMM");
+    console.log(monthName);
+    return monthName;
+  };
 
-    const getData = async () => {
-        try {
-            const {data} = await request({method: "GET", endpoint: ""}); // TO DO ENDPOINT
-            setData(data);
-            
-        } catch (error) {
-            console.log(error);
-        }
-    };
+  const getData = async () => {
+    try {
+      const { data } = await request({ method: "GET", endpoint: "spendings?sort=month" });
+      const transformedData = data.data[0].map((item: any) => {
+        console.log(item);
+        return {
+          name: getMonthName(item.month),
+          planejado: item.planned_spending,
+          real: item.real_spending,
+        };
+      });
+      setData(transformedData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    useEffect(() => {
-        getData();
+  useEffect(() => {
+    getData();
+  }, []);
 
-      }, []);
-
-    return (
-        <div className="card-chart" style={{width: "100%"}}>
-            <h4>Gastos Planejados por Mês</h4>
-            <PlannedSpendingByRealSpendingChart/>
-        </div>
-    );
+  return (
+    <div className="card-chart" style={{ width: "100%" }}>
+      <h4>Gastos Planejados por Mês</h4>
+      <PlannedSpendingByRealSpendingChart data={data} />
+    </div>
+  );
 };
 
 export default PlannedSpendingByRealSpendingChartContainer;

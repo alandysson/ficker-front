@@ -52,7 +52,7 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
           type_id: 2,
-          payment_method_id: 3,
+          payment_method_id: 4,
           card_id: cardId,
         },
       });

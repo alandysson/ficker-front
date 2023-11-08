@@ -1,21 +1,36 @@
 import { request } from "@/service/api";
 import { useEffect, useState } from "react";
 import AnalysesByMonthChart from "../AnalysesByMonthChart";
-import AnalysesByMonthChartInterface from "../AnalysesByMonthChart";
 import "./styles.scss";
+import dayjs from "dayjs";
+
+export interface IAnalysesByMonthChartContainer {
+  mes: string;
+  entrada: number;
+  saida: number;
+}
 
 const AnalysesByMonthChartContainer = () => {
-  const [chartData, setChartData] = useState<AnalysesByMonthChartInterface[]>(
-    []
-  );
+  const [chartData, setChartData] = useState<IAnalysesByMonthChartContainer[]>([]);
+
+  const getMonthName = (monthNumber: number) => {
+    const monthName = dayjs().month(monthNumber).format("MMM");
+    console.log(monthName);
+    return monthName;
+  };
 
   const getData = async () => {
     try {
       const { data } = await request({
-        endpoint: "", // TO DO ENDPOINT
+        endpoint: "spendings?sort=month", // TO DO ENDPOINT
       });
-      setChartData(data);
-      console.log(data);
+      console.log(data.data);
+      const transformedData = data.data[0].map((item: any) => ({
+        mes: getMonthName(item.month),
+        entrada: item.incomes,
+        saida: item.real_spending,
+      }));
+      setChartData(transformedData);
     } catch (error) {
       console.error("Erro ao obter os dados da API", error);
     }
@@ -28,25 +43,7 @@ const AnalysesByMonthChartContainer = () => {
   return (
     <div className="card">
       <h4>Visão Geral</h4>
-      <AnalysesByMonthChart
-        data={[
-          {
-            mes: "jan",
-            entrada: 1394,
-            saida: 789,
-          },
-          {
-            mes: "fev",
-            entrada: 1394,
-            saida: 932,
-          },
-          {
-            mes: "mar",
-            entrada: 1394,
-            saida: 1278,
-          },
-        ]}
-      />
+      <AnalysesByMonthChart data={chartData} />
     </div>
   );
 };

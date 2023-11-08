@@ -111,7 +111,7 @@ export const EditTransactionModal = ({
           date: dayjs(transaction.date),
           category_id: transaction.category_id,
           installments: transaction.installments,
-          value: transaction.transaction_value,
+          transaction_value: transaction.transaction_value,
         }}
         onFinish={handleFinish}
         onFinishFailed={(errorInfo) => console.log(errorInfo)}
@@ -208,7 +208,10 @@ export const EditTransactionModal = ({
         ) : null}
         <Col style={{ marginBottom: 20 }} xl={15}>
           <label>Valor:</label>
-          <Form.Item name="value" rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}>
+          <Form.Item
+            name="transaction_value"
+            rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
+          >
             <Input className={styles.input} placeholder="R$" data-testid="value" />
           </Form.Item>
         </Col>
