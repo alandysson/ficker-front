@@ -39,7 +39,7 @@ const PlannedSpendingByRealSpendingChartContainer = () => {
   }, []);
 
   return (
-    <div className="card-chart" style={{ width: "100%" }}>
+    <div className="card-chart">
       <h4>Gastos Planejados por Mês</h4>
       <PlannedSpendingByRealSpendingChart data={data} />
     </div>

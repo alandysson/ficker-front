@@ -10,7 +10,7 @@ const AnalysesByMonthChart = ({ data }: AnalysesByMonthChartProps) => {
   console.log;
   return (
     <LineChart
-      width={400}
+      width={350}
       height={200}
       data={data} // Use this.props.data
       margin={{

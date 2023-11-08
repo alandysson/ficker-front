@@ -110,7 +110,7 @@ const Analysis = () => {
                   xl={5}
                   lg={5}
                   md={6}
-                  xs={15}
+                  xs={24}
                 >
                   <Col style={{ marginRight: 10 }}>
                     <p className={styles.balance_description}>Transação Mais Cara</p>
@@ -123,7 +123,7 @@ const Analysis = () => {
                   xl={5}
                   lg={5}
                   md={6}
-                  xs={15}
+                  xs={24}
                 >
                   <Col style={{ marginRight: 10 }}>
                     <p className={styles.balance_description}>Transações de Entrada</p>
@@ -136,7 +136,7 @@ const Analysis = () => {
                   xl={5}
                   lg={5}
                   md={6}
-                  xs={15}
+                  xs={24}
                 >
                   <Col style={{ marginRight: 10 }}>
                     <p className={styles.balance_description}>Transações de Saída</p>
@@ -149,7 +149,7 @@ const Analysis = () => {
                   xl={5}
                   lg={5}
                   md={6}
-                  xs={15}
+                  xs={24}
                 >
                   <Col style={{ marginRight: 10 }}>
                     <p className={styles.balance_description}>Transações Totais</p>
@@ -158,18 +158,18 @@ const Analysis = () => {
                 </Col>
               </Row>
               <Row style={{ marginTop: 10 }} gutter={12}>
-                <Col xl={10} lg={10} md={24} xs={22} style={{ marginBottom: 20 }}>
+                <Col xl={10} lg={10} md={24} xs={24} style={{ marginBottom: 20 }}>
                   <PlannedSpendingByRealSpendingChartContainer />
                 </Col>
-                <Col xl={10} lg={12} md={24} xs={20} style={{ marginLeft: 60 }}>
+                <Col xl={10} lg={12} md={24} xs={24}>
                   <AnalysesByMonthChartContainer />
                 </Col>
               </Row>
               <Row style={{ marginTop: 10 }} gutter={10}>
-                <Col xl={8} lg={11} md={24} xs={20} style={{ marginBottom: 20 }}>
+                <Col xl={8} lg={11} md={24} xs={24} style={{ marginBottom: 20 }}>
                   <ExpensesByCategoryChartContainer />
                 </Col>
-                <Col xl={12} lg={12} md={24} xs={22}>
+                <Col xl={12} lg={12} md={24} xs={24}>
                   <LastTransactionsList />
                 </Col>
               </Row>
