@@ -93,6 +93,7 @@ const Resume = () => {
             planned_spending: gastoPlanejado,
           },
         });
+        getBalance();
       } catch (error) {
         message.error("Algo deu errado!");
       }
