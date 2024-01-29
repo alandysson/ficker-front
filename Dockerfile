@@ -10,8 +10,6 @@ RUN mkdir src && yarn install
 
 COPY . .
 
-ARG env
-
 RUN yarn build
 
 CMD yarn start
