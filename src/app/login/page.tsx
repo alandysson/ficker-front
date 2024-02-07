@@ -28,7 +28,7 @@ export default function Login() {
         return (window.location.href = "/");
       }
     } catch (error) {
-      message.error("Senha ou email incorreto!");
+      throw new Error("Senha ou email incorreto!");
     }
   };
   return (
