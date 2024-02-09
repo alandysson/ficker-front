@@ -14,4 +14,10 @@ RUN yarn build
 
 EXPOSE 3000
 
-CMD yarn start
+CMD ["yarn",  "start"]
+
+FROM nginx:alpine
+
+COPY ./nginx/default.conf /etc/nginx/conf.d/
+
+EXPOSE 80
