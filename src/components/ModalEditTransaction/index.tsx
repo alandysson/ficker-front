@@ -51,9 +51,9 @@ export const EditTransactionModal = ({
     try {
       const response = await request({
         method: "GET",
-        endpoint: `categories/type/${typeId}`,
+        endpoint: `categories/0?type=${typeId}`,
       });
-      setCategories(response.data);
+      setCategories(response.data.data.categories);
     } catch (error) {
       console.log(error);
     }

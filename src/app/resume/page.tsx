@@ -87,7 +87,7 @@ const Resume = () => {
       setIsEditMode(false);
       try {
         await request({
-          endpoint: "spending/store",
+          endpoint: "spendings",
           method: "POST",
           data: {
             planned_spending: gastoPlanejado,

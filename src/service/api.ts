@@ -23,11 +23,11 @@ export const request = async ({
   params,
   loaderStateSetter,
 }: RequestParams) => {
-  const baseUrl = "back.ficker.tech/api";
+  const baseUrl = "34.172.202.210:8080/api";
   const token = localStorage.getItem("token");
   const config: AxiosRequestConfig = {
     method,
-    baseURL: `https://${baseUrl}/${endpoint}`,
+    baseURL: `http://${baseUrl}/${endpoint}`,
     data,
     params,
     timeout: 7000,
@@ -43,6 +43,7 @@ export const request = async ({
   try {
     result = await axios(config);
   } catch (error: any) {
+    console.log("error api");
     if (error.response.status === 401) {
       localStorage.removeItem("token");
       window.location.href = "/login";

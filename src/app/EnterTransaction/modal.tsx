@@ -35,7 +35,7 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
       console.log(dayjs(values.date).format("YYYY-MM-DD"));
       await request({
         method: "POST",
-        endpoint: "transaction/store",
+        endpoint: "transactions",
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
@@ -57,9 +57,9 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
     try {
       const response = await request({
         method: "GET",
-        endpoint: "categories/type/1",
+        endpoint: "categories/0?type=1",
       });
-      setCategories(response.data);
+      setCategories(response.data.data.categories);
     } catch (error) {
       console.log(error);
     }
@@ -139,7 +139,7 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
                 style={{ width: 200, height: 40 }}
                 options={[
                   { value: 0, label: "Nova" },
-                  ...categories.map((category) => ({
+                  ...categories?.map((category) => ({
                     value: category.id,
                     label: category.category_description,
                   })),

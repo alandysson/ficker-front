@@ -19,8 +19,9 @@ const EnterTransaction = () => {
     try {
       const response = await request({
         method: "GET",
-        endpoint: "transaction/type/1",
+        endpoint: "transactions/0?type=1",
       });
+      console.log(response.data.data.transactions);
       setTransactions(response.data.data.transactions);
     } catch (error) {
       console.log(error);

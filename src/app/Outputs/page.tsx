@@ -23,7 +23,7 @@ const Outputs = () => {
     try {
       const response = await request({
         method: "GET",
-        endpoint: "transaction/type/2",
+        endpoint: "transactions/0?type=2",
       });
       setTransactions(response.data.data.transactions);
     } catch (error) {
