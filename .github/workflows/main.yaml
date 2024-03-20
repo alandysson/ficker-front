@@ -28,8 +28,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: user/app:latest
+      - name: "Build Inventory Image"
+        run: |
+          docker build . --tag ghcr.io/alandysson/ficker-front:latest
+          docker push ghcr.io/alandysson/ficker-front:latest
