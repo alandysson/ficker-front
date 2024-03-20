@@ -32,4 +32,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{ github.actor }}/app:latest
+          tags: user/app:latest
