@@ -29,7 +29,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    depends-on: build
+    needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v4
