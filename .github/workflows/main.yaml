@@ -8,13 +8,6 @@ on:
       - main
 
 jobs:
-  permissions:
-    check-runs:
-      contents: read
-      metadata: read
-      pull-requests: write
-      checks: write
-
   build:
     runs-on: ubuntu-latest
 
