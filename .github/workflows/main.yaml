@@ -13,17 +13,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: node:20
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -38,8 +30,17 @@ jobs:
         run: |
           docker buildx build -t ghcr.io/alandysson/ficker-front:latest --push .
 
-      - name: Run testes
-        run: docker exec -it ficker-front npm run test
+  test:
+    runs-on: ubuntu-
+    container:
+      image: ghcr.io/alandysson/ficker-front:latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Jest tests
+        run: npm test
 
       - name: Test Report
         uses: dorny/test-reporter@v1
