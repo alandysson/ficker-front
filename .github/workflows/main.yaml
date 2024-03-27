@@ -8,7 +8,7 @@ on:
       - main
 
 env:
-  GAR_LOCATION: us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan:1.0
+  GAR_LOCATION: us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan:latest
 
 jobs:
   build:
@@ -57,4 +57,4 @@ jobs:
           reporter: jest-junit # Format of test results
 
       - name: Push image
-        run: docker push ${{ env.GAR_LOCATION }}
+        run: docker buildx build -t ${{ env.GAR_LOCATION }} --push .
