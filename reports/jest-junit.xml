@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="4" failures="0" errors="0" time="2.924">
+  <testsuite name="Login.tsx" errors="0" failures="0" skipped="0" timestamp="2024-03-27T19:30:34" time="1.289" tests="1">
+    <testcase classname="Login.tsx should show required message if the field is empty" name="Login.tsx should show required message if the field is empty" time="0.1">
+    </testcase>
+  </testsuite>
+  <testsuite name="Create Account page" errors="0" failures="0" skipped="0" timestamp="2024-03-27T19:30:34" time="1.301" tests="2">
+    <testcase classname="Create Account page should be required" name="Create Account page should be required" time="0.046">
+    </testcase>
+    <testcase classname="Create Account page The password should be equal" name="Create Account page The password should be equal" time="0.079">
+    </testcase>
+  </testsuite>
+  <testsuite name="Modal" errors="0" failures="0" skipped="0" timestamp="2024-03-27T19:30:34" time="2.131" tests="1">
+    <testcase classname="Modal Fields should be required" name="Modal Fields should be required" time="0.612">
+    </testcase>
+  </testsuite>
+</testsuites>
