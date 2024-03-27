@@ -32,15 +32,14 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/alandysson/ficker-front:latest
+    container: ghcr.io/alandysson/ficker-front:latest
     needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Run Jest tests
-        run: npm test
+        run: npm run test --ci --reporters=jest-junit
 
       - name: Test Report
         uses: dorny/test-reporter@v1
