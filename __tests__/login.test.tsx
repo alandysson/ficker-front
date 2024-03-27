@@ -6,7 +6,7 @@ import Login from "@/app/login/page";
 describe("Login.tsx", () => {
   it("should show required message if the field is empty", () => {
     render(<Login />);
-    const email = screen.getByLabelText("Emai");
+    const email = screen.getByLabelText("Email");
     const password = screen.getByLabelText("Senha");
     const button = screen.getByRole("button");
 
