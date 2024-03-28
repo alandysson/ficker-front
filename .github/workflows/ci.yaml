@@ -62,7 +62,7 @@ jobs:
       - name: Run the image
         run: |
           docker run -d -p 3000:3000 ghcr.io/alandysson/ficker-front:latest
-          docker ps -a
+          docker exec $(docker ps -q) npm run test
 
       - name: Test Report
         uses: dorny/test-reporter@v1
