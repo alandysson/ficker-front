@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - main
+env:
+  testResult: ""
 
 jobs:
   # build:
@@ -63,13 +65,13 @@ jobs:
         run: |
           docker ps
           docker exec $(docker ps -q) yarn test
-          docker exec $(docker ps -q) cat reports/jest-junit.xml
+          docker exec $(docker ps -q) cat reports/jest-junit.xml | {{ env.testResult }}
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure() # run this step even if previous step failed
         with:
           name: JEST Tests # Name of the check run which will be created
-          path: docker exec
+          path: { { env.testResult } }
           reporter: jest-junit # Format of test results
   # - name: Push image
   #   run: docker buildx build -t ${{ env.GAR_LOCATION }} --push .
