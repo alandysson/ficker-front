@@ -8,32 +8,27 @@ on:
       - main
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Set up QEMU
-  #       uses: docker/setup-qemu-action@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-  #     - name: Login to GitHub Container Registry
-  #       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Login to GitHub Container Registry
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-  #     - name: Build and export
-  #       uses: docker/build-push-action@v5
-  #       with:
-  #         context: .
-  #         tags: ficker-front:latest
-  #         outputs: type=docker,dest=/tmp/ficker-front.tar
-  #     - name: Upload artifact
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: ficker-front
-  #         path: /tmp/ficker-front.tar
+      - name: Build and export
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          tags: ficker-front:latest
+          outputs: type=docker,dest=/tmp/ficker-front.tar
 
   # - name: Build and push
   #   run: |
@@ -61,13 +56,13 @@ jobs:
     steps:
       - name: Run the image
         run: |
-          docker run -d -p 3000:3000 ghcr.io/alandysson/ficker-front:latest
+          docker run -d -p 3000:3000 ghcr.io/alandysson/ficker-front:latest --name ficker-front
           sleep 5
 
       - name: Run tests
         run: |
-          docker ps -a
-          docker exec $(docker ps -q) yarn test --watchAll=false --coverage --reporters=default --reporters=jest-junit
+          docker ps
+          docker exec $(docker ficker-front) yarn test
 
       - name: Test Report
         uses: dorny/test-reporter@v1
