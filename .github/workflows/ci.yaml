@@ -30,15 +30,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container: ghcr.io/alandysson/ficker-front:latest
-    credentials:
-      username: ${{ github.actor }}
-      password: ${{ secrets.GITHUB_TOKEN }}
     # needs: build
     steps:
-      - name: Npm Install
-        run: npm install
-      # - name: Run Jest tests
-      #   run: npm test
+      - name: Listar arquivos na imagem
+        run: |
+          docker run --rm ghcr.io/seu-usuario/sua-imagem:tag ls -la
 
       - name: Test Report
         uses: dorny/test-reporter@v1
