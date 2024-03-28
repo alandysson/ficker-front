@@ -49,7 +49,7 @@ jobs:
 
   copy:
     runs-on: ubuntu-latest
-    needs: build
+    # needs: build
     container: ghcr.io/alandysson/ficker-front:latest
     steps:
       - name: Login to gcp
