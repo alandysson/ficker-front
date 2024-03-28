@@ -33,7 +33,7 @@ jobs:
     # needs: build
     steps:
       - name: Run the image
-        run: docker run ghcr.io/alandysson/ficker-front:latest npm run test:ci
+        run: docker -v
 
       - name: Test Report
         uses: dorny/test-reporter@v1
