@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: Listar arquivos na imagem
         run: |
-          cd ..
+          cd ficker-front
           ls -la
 
       - name: Test Report
