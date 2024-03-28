@@ -92,9 +92,10 @@ jobs:
           version: ">= 363.0.0"
 
       - name: Deploy to Cloud Run
-        run: |
-          gcloud run deploy alan-front \
-            --image=us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan:latest \
-            --platform=managed \
-            --region=us-central1 \
-            --allow-unauthenticated
+        uses: "google-github-actions/deploy-cloudrun@v2"
+        with:
+          service: "alan"
+          image: "us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan:latest"
+
+      - name: "Use output"
+        run: 'curl "${{ steps.deploy.outputs.url }}"'
