@@ -67,6 +67,9 @@ jobs:
         with:
           credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
 
+      - name: Tag image
+        run: docker tag ghcr.io/alandysson/ficker-front:latest us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan:latest
+
       - name: Push to GCP
         run: |
-          docker push us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan/ficker-front:latest
+          docker push us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan:latest
