@@ -57,7 +57,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Pull image
-        run: docker pull ${{ env.GHRC_LOCATION }}/ficker-front:latest
+        run: "docker pull ${{ env.GHRC_LOCATION }}/ficker-front:latest"
 
       - name: Login to gcp
         uses: "google-github-actions/auth@v2"
