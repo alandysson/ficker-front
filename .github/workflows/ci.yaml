@@ -62,6 +62,7 @@ jobs:
       - name: Run the image
         run: |
           docker run -d -p 3000:3000 ghcr.io/alandysson/ficker-front:latest
+          docker ps -a
 
       - name: Test Report
         uses: dorny/test-reporter@v1
