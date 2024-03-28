@@ -33,7 +33,7 @@ jobs:
     # needs: build
     steps:
       - name: check files
-        run: sh ls -l
+        run: docker exec ficker-front npm test
       # - name: Run Jest tests
       #   run: npm test
 
