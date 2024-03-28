@@ -28,7 +28,7 @@ jobs:
   #       docker buildx build -t ghcr.io/alandysson/ficker-front:latest --push .
 
   test:
-    runs-on: docker
+    runs-on: ubuntu-latest
     container: ghcr.io/alandysson/ficker-front:latest
     # needs: build
     steps:
