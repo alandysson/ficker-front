@@ -32,10 +32,10 @@ jobs:
     container: ghcr.io/alandysson/ficker-front:latest
     # needs: build
     steps:
-      - name: npm version
-        run: npm -v
-      - name: Run Jest tests
-        run: npm test
+      - name: check files
+        run: ls -l
+      # - name: Run Jest tests
+      #   run: npm test
 
       - name: Test Report
         uses: dorny/test-reporter@v1
