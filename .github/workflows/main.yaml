@@ -62,6 +62,9 @@ jobs:
       - name: Pull image
         run: docker pull ghcr.io/alandysson/ficker-front:latest
 
+      - name: Tag image
+        run: docker tag ghcr.io/alandysson/ficker-front:latest us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan:latest
+
       - name: Login to gcp
         uses: "google-github-actions/auth@v2"
         with:
@@ -73,10 +76,7 @@ jobs:
           version: ">= 363.0.0"
 
       - name: "Use gcloud CLI"
-        run: "gcloud info"
-
-      - name: Tag image
-        run: docker tag ghcr.io/alandysson/ficker-front:latest us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan:latest
+        run: gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan
 
       - name: Push to GCP
         run: |
