@@ -30,9 +30,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container: ghcr.io/alandysson/ficker-front:latest
-    credentials:
-      username: ${{ github.actor }}
-      password: ${{ secrets.github_token }}
     # needs: build
     steps:
       - name: Check for dockerenv file
