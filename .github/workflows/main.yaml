@@ -53,6 +53,6 @@ jobs:
     container: ghcr.io/alandysson/ficker-front:latest
     steps:
       - name: Login to gcp
-      - uses: "google-github-actions/auth@v2"
+        uses: "google-github-actions/auth@v2"
         with:
           credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
