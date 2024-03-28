@@ -66,4 +66,4 @@ jobs:
 
       - name: Push to GCP
         run: |
-          docker push {{ env.GHCR_LOCATION }}/ficker-front:latest
+          "docker push {{ env.GCP_LOCATION }}/ficker-front:latest"
