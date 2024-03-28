@@ -63,6 +63,5 @@ jobs:
 
       - name: Push to GCP
         run: |
-          gcloud auth configure-docker
           docker tag ghcr.io/alandysson/ficker-front:latest gcr.io/ficker-325015/ficker-front:latest
           docker push {{ env.GAR_LOCATION }}/ficker-front:latest
