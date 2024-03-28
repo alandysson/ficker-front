@@ -30,6 +30,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container: ghcr.io/alandysson/ficker-front:latest
+    credentials:
+      username: ${{ github.actor }}
+      password: ${{ secrets.github_token }}
     # needs: build
     steps:
       - name: Check for dockerenv file
@@ -44,8 +47,8 @@ jobs:
           name: JEST Tests # Name of the check run which will be created
           path: reports/jest-*.xml # Path to test results
           reporter: jest-junit # Format of test results
-  - name: Push image
-    run: docker buildx build -t ${{ env.GAR_LOCATION }} --push .
+  # - name: Push image
+  #   run: docker buildx build -t ${{ env.GAR_LOCATION }} --push .
 
   # deploy:
   #   runs-on: ubuntu-latest
