@@ -60,7 +60,7 @@ jobs:
       options: --entrypoint /bin/sh
     steps:
       - name: Run the image
-        run: jest
+        run: npm jest
 
       - name: Test Report
         uses: dorny/test-reporter@v1
