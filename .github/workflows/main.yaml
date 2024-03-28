@@ -69,4 +69,4 @@ jobs:
 
       - name: Push to GCP
         run: |
-          "docker push {{ env.GCP_LOCATION }}/ficker-front:latest"
+          docker push us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan/ficker-front:latest
