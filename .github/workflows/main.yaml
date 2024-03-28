@@ -6,28 +6,26 @@ on:
   push:
     branches:
       - main
-env:
-  GPC_LOCATION: us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan/
-  GHCR_LOCATION: ghcr.io/alandysson/ficker-front:latest
+
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Set up QEMU
-  #       uses: docker/setup-qemu-action@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-  #     - name: Login to GitHub Container Registry
-  #       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Login to GitHub Container Registry
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-  #     - name: Build and push
-  #       run: |
-  #         docker buildx build -t ghcr.io/alandysson/ficker-front:latest --push .
+      - name: Build and push
+        run: |
+          docker buildx build -t ghcr.io/alandysson/ficker-front:latest --push .
 
   # test:
   #   runs-on: ubuntu-latest
@@ -49,42 +47,42 @@ jobs:
   # - name: Push image
   #   run: docker buildx build -t ${{ env.GAR_LOCATION }} --push .
 
-  # copy:
-  #   runs-on: ubuntu-latest
-  #   # needs: build
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
+  deploy:
+    runs-on: ubuntu-latest
+    # needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-  #     - name: Login to GitHub Container Registry
-  #       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Login to GitHub Container Registry
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-  #     - name: Pull image
-  #       run: docker pull ghcr.io/alandysson/ficker-front:latest
+      - name: Pull image
+        run: docker pull ghcr.io/alandysson/ficker-front:latest
 
-  #     - name: Tag image
-  #       run: docker tag ghcr.io/alandysson/ficker-front:latest us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan:latest
+      - name: Tag image
+        run: docker tag ghcr.io/alandysson/ficker-front:latest us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan:latest
 
-  #     - name: Login to gcp
-  #       uses: "google-github-actions/auth@v2"
-  #       with:
-  #         credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+      - name: Login to gcp
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
 
-  #     - name: "Set up Cloud SDK"
-  #       uses: "google-github-actions/setup-gcloud@v2"
-  #       with:
-  #         version: ">= 363.0.0"
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
+        with:
+          version: ">= 363.0.0"
 
-  #     - name: "Use gcloud CLI"
-  #       run: gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan
+      - name: "Use gcloud CLI"
+        run: gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan
 
-  #     - name: Push to GCP
-  #       run: |
-  #         docker push us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan:latest
+      - name: Push to GCP
+        run: |
+          docker push us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan:latest
 
   cloudRun:
     runs-on: ubuntu-latest
-    # needs: copy
+    needs: copy
     steps:
       - name: Login to gcp
         uses: "google-github-actions/auth@v2"
@@ -101,6 +99,4 @@ jobs:
         with:
           service: "alan"
           image: "us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan:latest"
-
-      - name: "Use output"
-        run: 'curl "${{ steps.deploy.outputs.url }}"'
+          port: 3000

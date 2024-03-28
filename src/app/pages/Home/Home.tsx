@@ -20,7 +20,7 @@ export const HomeScreen = () => {
         />
         <div className={styles.introContainer}>
           <p>
-            Assuma o controle de suas finanças com o Ficker, a solução completa para gerenciar suas despesas.
+            ssuma o controle de suas finanças com o Ficker, a solução completa para gerenciar suas despesas.
           </p>
           <div className={styles.buttonContainer}>
             <Link href={"/login"}>
