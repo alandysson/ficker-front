@@ -7,7 +7,8 @@ on:
     branches:
       - main
 env:
-  GAR_LOCATION: us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan/
+  GPC_LOCATION: us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan/
+  GHCR_LOCATION: ghcr.io/alandysson/ficker-front:latest
 jobs:
   # build:
   #   runs-on: ubuntu-latest
@@ -51,16 +52,12 @@ jobs:
   copy:
     runs-on: ubuntu-latest
     # needs: build
-    container: ghcr.io/alandysson/ficker-front:latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Pull image
+        run: docker pull ${{ env.GHRC_LOCATION }}/ficker-front:latest
 
       - name: Login to gcp
         uses: "google-github-actions/auth@v2"
@@ -69,5 +66,4 @@ jobs:
 
       - name: Push to GCP
         run: |
-          docker tag ghcr.io/alandysson/ficker-front:latest gcr.io/ficker-325015/ficker-front:latest
-          docker push {{ env.GAR_LOCATION }}/ficker-front:latest
+          docker push {{ env.GHCR_LOCATION }}/ficker-front:latest
