@@ -30,6 +30,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container: ghcr.io/alandysson/ficker-front:latest
+    credentials:
+      username: ${{ github.actor }}
+      password: ${{ secrets.GITHUB_TOKEN }}
     # needs: build
     steps:
       - name: Npm Install
