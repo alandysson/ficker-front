@@ -30,7 +30,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container: ghcr.io/alandysson/ficker-front:latest
-    needs: build
+    # needs: build
     steps:
       - name: check files
         run: pwd
