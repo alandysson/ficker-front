@@ -30,7 +30,7 @@ on:
   test:
     runs-on: ubuntu-latest
     container: ghcr.io/alandysson/ficker-front:latest
-    needs: build
+    # needs: build
     steps:
       - name: Run Jest tests
         run: npm test
