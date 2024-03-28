@@ -29,11 +29,11 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    container: ./Dockerfile
+    container: ghcr.io/alandysson/ficker-front:latest
     # needs: build
     steps:
-      - name: check files
-        run: pwd
+      - name: Npm Install
+        run: npm install
       # - name: Run Jest tests
       #   run: npm test
 
