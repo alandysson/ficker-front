@@ -33,7 +33,7 @@ jobs:
     # needs: build
     steps:
       - name: Check for dockerenv file
-        run: (ls /.dockerenv && echo Found dockerenv) || (echo No dockerenv)
+        run: ls
       - name: Run Jest tests
         run: npm test
 
