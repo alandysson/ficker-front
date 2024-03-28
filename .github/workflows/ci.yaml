@@ -55,9 +55,10 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    container:
+    services:
       image: ghcr.io/alandysson/ficker-front:latest
-      options: --entrypoint /bin/sh
+      createOptions:
+        Cmd: ["npm", "run", "test"]
     steps:
       - name: Run the image
         run: |
