@@ -66,6 +66,10 @@ jobs:
           docker ps
           docker exec $(docker ps -q) yarn test
           docker exec $(docker ps -q) cat reports/jest-junit.xml | tee /tmp/jest-junit.xml
+
+      - name: Test
+        run: cat /tmp/jest-junit.xml
+
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure() # run this step even if previous step failed
