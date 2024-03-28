@@ -32,8 +32,8 @@ jobs:
     container: ghcr.io/alandysson/ficker-front:latest
     # needs: build
     steps:
-      - name: Check for dockerenv file
-        run: ls
+      - name: npm version
+        run: npm -v
       - name: Run Jest tests
         run: npm test
 
