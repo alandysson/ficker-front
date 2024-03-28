@@ -8,36 +8,36 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
 
-      - name: Login to GitHub Container Registry
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+  #     - name: Login to GitHub Container Registry
+  #       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Build and export
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          tags: ficker-front:latest
-          outputs: type=docker,dest=/tmp/ficker-front.tar
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ficker-front
-          path: /tmp/ficker-front.tar
+  #     - name: Build and export
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         context: .
+  #         tags: ficker-front:latest
+  #         outputs: type=docker,dest=/tmp/ficker-front.tar
+  #     - name: Upload artifact
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: ficker-front
+  #         path: /tmp/ficker-front.tar
 
-    # - name: Build and push
-    #   run: |
-    #     docker buildx build -t ghcr.io/alandysson/ficker-front:latest --push .
+  # - name: Build and push
+  #   run: |
+  #     docker buildx build -t ghcr.io/alandysson/ficker-front:latest --push .
 
   use:
     runs-on: ubuntu-latest
@@ -46,11 +46,11 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: ghcr.io/alandysson/ficker-front:latest
-          path: ghcr.io/alandysson/
+          name: ficker-front
+          path: /tmp
       - name: Load image
         run: |
-          docker load --input /ghcr.io/alandysson/ficker-front:latest.tar
+          docker load --input /tmp/ficker-front:latest.tar
           docker image ls -a
 
   test:
