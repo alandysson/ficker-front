@@ -61,8 +61,7 @@ jobs:
     steps:
       - name: Run the image
         run: |
-          ls
-          docker -v
+          docker run -d -p 3000:3000 ghcr.io/alandysson/ficker-front:latest
 
       - name: Test Report
         uses: dorny/test-reporter@v1
