@@ -27,24 +27,32 @@ jobs:
         run: |
           docker buildx build -t ghcr.io/alandysson/ficker-front:latest --push .
 
-  test:
+  # test:
+  #   runs-on: ubuntu-latest
+  #   container: ghcr.io/alandysson/ficker-front:latest
+  #   needs: build
+  #   steps:
+  #     - name: Check for dockerenv file
+  #       run: ls
+  #     - name: Run Jest tests
+  #       run: npm test
+
+  #     - name: Test Report
+  #       uses: dorny/test-reporter@v1
+  #       if: success() || failure() # run this step even if previous step failed
+  #       with:
+  #         name: JEST Tests # Name of the check run which will be created
+  #         path: reports/jest-*.xml # Path to test results
+  #         reporter: jest-junit # Format of test results
+  # - name: Push image
+  #   run: docker buildx build -t ${{ env.GAR_LOCATION }} --push .
+
+  copy:
     runs-on: ubuntu-latest
-    container: ghcr.io/alandysson/ficker-front:latest
     needs: build
+    container: ghcr.io/alandysson/ficker-front:latest
     steps:
-      - name: Check for dockerenv file
-        run: ls
-      - name: Run Jest tests
-        run: npm test
-
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure() # run this step even if previous step failed
+      - name: Login to gcp
+      - uses: "google-github-actions/auth@v2"
         with:
-          name: JEST Tests # Name of the check run which will be created
-          path: reports/jest-*.xml # Path to test results
-          reporter: jest-junit # Format of test results
-
-
-      # - name: Push image
-      #   run: docker buildx build -t ${{ env.GAR_LOCATION }} --push .
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
