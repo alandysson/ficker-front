@@ -33,7 +33,7 @@ jobs:
     # needs: build
     steps:
       - name: check files
-        run: ls -l
+        run: sh ls -l
       # - name: Run Jest tests
       #   run: npm test
 
