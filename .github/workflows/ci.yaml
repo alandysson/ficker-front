@@ -59,9 +59,10 @@ jobs:
       image: ghcr.io/alandysson/ficker-front:latest
       options: --entrypoint /bin/sh
     steps:
-      - uses: actions/checkout@main
       - name: Run the image
-        run: ls
+        run: |
+          ls
+          docker -v
 
       - name: Test Report
         uses: dorny/test-reporter@v1
