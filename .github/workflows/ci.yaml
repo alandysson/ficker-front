@@ -74,9 +74,10 @@ jobs:
         uses: dorny/test-reporter@v1
         if: success() || failure() # run this step even if previous step failed
         with:
-          artifact: /tmp/jest-junit.xml
+          working-directory: /tmp/jest-junit.xml
           name: JEST Tests # Name of the check run which will be created
           path: "*.xml" # Path to the test results
+          path-replace-backslashes: "true"
           reporter: jest-junit # Format of test results
   # - name: Push image
   #   run: docker buildx build -t ${{ env.GAR_LOCATION }} --push .
