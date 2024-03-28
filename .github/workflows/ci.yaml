@@ -28,13 +28,12 @@ jobs:
   #       docker buildx build -t ghcr.io/alandysson/ficker-front:latest --push .
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: docker
     container: ghcr.io/alandysson/ficker-front:latest
     # needs: build
     steps:
-      - name: Listar arquivos na imagem
-        run: |
-          ls -la
+      - name: Run the image
+        run: docker run ghcr.io/alandysson/ficker-front:latest npm run test:ci
 
       - name: Test Report
         uses: dorny/test-reporter@v1
