@@ -57,13 +57,12 @@ jobs:
     runs-on: ubuntu-latest
     services:
       image: ghcr.io/alandysson/ficker-front:latest
-      createOptions:
-        Cmd: ["npm", "run", "test"]
+      # options: --entrypoint /bin/sh
     steps:
       - name: Run the image
         run: |
-          ls
-          docker -v
+        ls
+        docker -v
 
       - name: Test Report
         uses: dorny/test-reporter@v1
