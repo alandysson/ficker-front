@@ -35,11 +35,11 @@ jobs:
     container: ghcr.io/alandysson/ficker-front:latest
     needs: build
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: run image
+        run: docker run ghcr.io/alandysson/ficker-front:latest
 
       - name: Run Jest tests
-        run: npm run test --ci --reporters=jest-junit
+        run: npm test
 
       - name: Test Report
         uses: dorny/test-reporter@v1
