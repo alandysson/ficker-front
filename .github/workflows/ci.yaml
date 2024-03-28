@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: Listar arquivos na imagem
         run: |
-          docker run --rm ghcr.io/seu-usuario/sua-imagem:tag ls -la
+          docker run --rm ghcr.io/alandysson/ficker-front:latest ls -la
 
       - name: Test Report
         uses: dorny/test-reporter@v1
