@@ -1,11 +1,4 @@
-import { useEffect, useState } from "react";
 import ExpensesByCategoryChart from "../ExpensesByCategoryChart";
-import { request } from "@/service/api";
-
-interface AmountByCategory {
-  category_description: string;
-  amount: number;
-}
 
 const ExpensesByCategoryChartContainer = () => {
   return (
