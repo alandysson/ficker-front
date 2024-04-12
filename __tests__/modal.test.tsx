@@ -3,7 +3,6 @@ import "@testing-library/jest-dom";
 import { OutputModal } from "@/app/Outputs/modal";
 import { render } from "@testing-library/react";
 import { screen } from "@testing-library/dom";
-import selectEvent from "react-select-event";
 
 // const setIsModalOpen = jest.fn();
 

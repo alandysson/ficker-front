@@ -1,7 +1,7 @@
 "use client";
 import { request } from "@/service/api";
 import styles from "../EnterTransaction/entertransaction.module.scss";
-import { Modal, Col, DatePicker, Row, Select, Form, Button, Input, message, InputNumber } from "antd";
+import { Modal, Col, DatePicker, Row, Select, Form, Button, Input, message } from "antd";
 import type { DatePickerProps } from "antd";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
@@ -54,15 +54,12 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
   };
 
   const getCategories = async () => {
-    try {
-      const response = await request({
-        method: "GET",
-        endpoint: "categories/type/1",
-      });
-      setCategories(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    await request({
+      method: "GET",
+      endpoint: "categories/type/1",
+    })
+      .then((response) => setCategories(response.data))
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {
