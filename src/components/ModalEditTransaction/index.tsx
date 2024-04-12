@@ -36,7 +36,7 @@ export const EditTransactionModal = ({
 
   const handleDelete = async () => {
     try {
-      const response = await request({
+      await request({
         method: "DELETE",
         endpoint: `transaction/${transaction.id}`,
       });
@@ -48,15 +48,12 @@ export const EditTransactionModal = ({
   };
 
   const getCategories = async (typeId: number) => {
-    try {
-      const response = await request({
-        method: "GET",
-        endpoint: `categories/type/${typeId}`,
-      });
-      setCategories(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    await request({
+      method: "GET",
+      endpoint: `categories/type/${typeId}`,
+    })
+      .then((response) => setCategories(response.data))
+      .catch((error) => console.log(error));
   };
 
   const handleFinish = async () => {
