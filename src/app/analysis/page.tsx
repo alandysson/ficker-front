@@ -23,15 +23,12 @@ const Analysis = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const getOutTransactions = async () => {
-    try {
-      const response = await request({
-        method: "GET",
-        endpoint: "transaction/type/2",
-      });
-      setTotalOutTransactions(response.data.data.transactions.length);
-    } catch (error) {
-      console.log(error);
-    }
+    await request({
+      method: "GET",
+      endpoint: "transaction/type/2",
+    })
+      .then((response) => setTotalOutTransactions(response.data.data.transactions.length))
+      .catch((error) => console.log("transactions", error));
   };
   const getEnterTransactions = async () => {
     try {
