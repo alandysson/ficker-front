@@ -1,4 +1,4 @@
-import React, { PureComponent, useEffect } from "react";
+import React from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { IAnalysesByMonthChartContainer } from "../AnalysesByMonthChartContainer";
 
@@ -7,7 +7,6 @@ export interface AnalysesByMonthChartProps {
 }
 
 const AnalysesByMonthChart = ({ data }: AnalysesByMonthChartProps) => {
-  console.log;
   return (
     <LineChart
       width={350}
