@@ -1,13 +1,9 @@
-// "use client";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
 import { ConfigProvider } from "antd";
 import StyledComponentsRegistry from "./lib/AntdRegistry";
 import theme from "./theme/themeConfig";
 import { MainProvider } from "@/context";
-
-const manrope = Manrope({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Ficker",
