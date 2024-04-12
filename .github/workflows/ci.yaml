@@ -5,7 +5,7 @@ on:
 
   push:
     branches:
-      - main
+      - pull_request
 
 env:
   GCP_ADDRESS: us-central1-docker.pkg.dev/cinfo-devops-2023-2/docker/alan
