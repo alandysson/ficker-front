@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import CustomMenu from "@/components/CustomMenu";
-import { Button, Col, Row, Typography, message } from "antd";
+import { Button, Col, Row, message } from "antd";
 import styles from "./resume.module.scss";
 import MyCategoriesList from "@/components/MyCategoriesList";
 import LastTransactionsList from "@/components/LastTransactionsList";
@@ -71,7 +71,9 @@ const Resume = () => {
         endpoint: "balance",
       });
       setBalance(data.finances);
-    } catch (error) {}
+    } catch (error) {
+      console.log("balance", error);
+    }
   };
   const handleClickEditGastoPlanejado = () => {
     setIsEditMode(true);
@@ -93,7 +95,7 @@ const Resume = () => {
             planned_spending: gastoPlanejado,
           },
         });
-        getBalance();
+        await getBalance();
       } catch (error) {
         message.error("Algo deu errado!");
       }
