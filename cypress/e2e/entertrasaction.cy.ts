@@ -4,7 +4,7 @@ describe("Enter Transaction", () => {
     cy.login("alan.test@gmail.com", "senha123");
     cy.dataTest("enterTrasaction").click();
   });
-  it("Should enter transaction", () => {
+  it("Should create a new transaction", () => {
     cy.dataTest("newTransaction").click();
     cy.dataTest("input-description").type("Teste");
     cy.get("#basic_date").click();
@@ -16,19 +16,19 @@ describe("Enter Transaction", () => {
     cy.dataTest("button-submit").click();
     cy.get(".ant-message-notice-content").should("contain", "Transação adicionada com sucesso!");
   });
-  it.skip("Should show message error to required fields", () => {
+  it("Should show message error to required fields", () => {
     cy.dataTest("newTransaction").click();
     cy.dataTest("button-submit").click();
     cy.get(".ant-form-item-explain-error").should("have.length", 4);
   });
-  it.skip("Should be able to edit transaction", () => {
-    cy.dataTest("button-editTransaction").click();
+  it("Should be able to edit transaction", () => {
+    cy.dataTest("button-editTransaction-0").click();
     cy.dataTest("input-editDescription").clear().type("Teste Editado");
     cy.dataTest("button-editSubmit").click();
     cy.get(".ant-message-notice-content").should("contain", "Transação atualizada com sucesso!");
   });
-  it.skip("Should be able to delete transaction", () => {
-    cy.dataTest("button-editTransaction").click();
+  it("Should be able to delete transaction", () => {
+    cy.dataTest("button-editTransaction-0").click();
     cy.dataTest("button-deleteTransaction").click();
     cy.get(".ant-message-notice-content").should("contain", "Transação deletada com sucesso!");
   });
