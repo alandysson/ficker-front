@@ -33,9 +33,9 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
     try {
       const response = await request({
         method: "GET",
-        endpoint: "categories/type/2",
+        endpoint: "categories/0?type=2",
       });
-      setCategories(response.data);
+      setCategories(response.data.data.categories);
     } catch (error) {
       console.log(error);
     }
@@ -47,7 +47,7 @@ export const CardTransactionModal = ({ isModalOpen, setIsModalOpen, cardId }: Ca
       console.log(dayjs(values.date).format("YYYY-MM-DD"));
       await request({
         method: "POST",
-        endpoint: "transaction/store",
+        endpoint: "transactions",
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
