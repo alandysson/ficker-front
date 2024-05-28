@@ -1,4 +1,4 @@
-describe("Enter Transaction", () => {
+describe("Output Transaction", () => {
   beforeEach(() => {
     cy.visit("/");
     cy.login("alan.test@gmail.com", "senha123");
@@ -62,7 +62,6 @@ describe("Enter Transaction", () => {
       cy.dataTest("button-finish").click();
       cy.get(".ant-message-notice-content").should("contain", "Cartão cadastrado com sucesso!");
     });
-
     describe("Create a transaction with a card", () => {
       cy.dataTest("outputTrasaction").click();
       cy.dataTest("newTransaction").click();

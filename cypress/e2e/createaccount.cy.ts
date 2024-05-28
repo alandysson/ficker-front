@@ -1,5 +1,5 @@
 describe("Create Account", () => {
-  it.skip("Fields should be required", () => {
+  it("Fields should be required", () => {
     cy.visit("/");
     cy.get('[data-test="button-newAccount"]').click();
     cy.get('[data-test="button-submit"]').click();
@@ -11,7 +11,7 @@ describe("Create Account", () => {
     cy.get('[data-test="input-password"]').type("senha123");
     cy.get('[data-test="input-confirmPassword"]').should("have.attr", "required");
   });
-  it.skip("Password should be equal", () => {
+  it("Password should be equal", () => {
     cy.visit("/");
     cy.get('[data-test="button-newAccount"]').click();
     cy.get('[data-test="button-submit"]').click();
