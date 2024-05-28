@@ -38,7 +38,7 @@ const Cards = () => {
     try {
       const response = await request({
         method: "GET",
-        endpoint: "cards",
+        endpoint: "cards/0",
         loaderStateSetter: setLoading,
       });
       setCards(response.data.data.cards);
@@ -77,7 +77,7 @@ const Cards = () => {
             </div>
             <div className={styles.buttonsArea}>
               <SearchField />
-              <button className={styles.button} onClick={openModal}>
+              <button className={styles.button} onClick={openModal} data-test="button-newCard">
                 Novo Cartão
               </button>
             </div>

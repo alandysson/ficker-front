@@ -73,6 +73,7 @@ const CreateAccountPage = () => {
             className={styles.input}
             value={name}
             onChange={(event) => setName(event.target.value)}
+            data-test="input-name"
           />
           <label htmlFor="email" style={{ marginBottom: 5 }}>
             Email
@@ -84,6 +85,7 @@ const CreateAccountPage = () => {
             className={styles.input}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
+            data-test="input-email"
           />
           <label htmlFor="password" style={{ marginBottom: 5 }}>
             Senha
@@ -95,6 +97,7 @@ const CreateAccountPage = () => {
             required
             className={styles.input}
             onChange={(event) => setPassword(event.target.value)}
+            data-test="input-password"
           />
           <label htmlFor="confirmPassword" style={{ marginBottom: 5 }}>
             Confirmar Senha
@@ -106,8 +109,13 @@ const CreateAccountPage = () => {
             value={confirmPassword}
             className={styles.input}
             onChange={(event) => setConfirmPassword(event.target.value)}
+            data-test="input-confirmPassword"
           />
-          {error ? <p style={{ color: "red" }}>*As senhas precisam ser iguais</p> : null}
+          {error ? (
+            <p style={{ color: "red" }} data-test="text-alert">
+              *As senhas precisam ser iguais
+            </p>
+          ) : null}
           <div
             style={{
               display: "flex",
@@ -116,7 +124,7 @@ const CreateAccountPage = () => {
               alignItems: "center",
             }}
           >
-            <button type="submit" className={styles.button}>
+            <button type="submit" className={styles.button} data-test="button-submit">
               Cadastrar
             </button>
             <Link href={"/login"} style={{ textDecoration: "none" }}>

@@ -35,7 +35,7 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
       console.log(dayjs(values.date).format("YYYY-MM-DD"));
       await request({
         method: "POST",
-        endpoint: "transaction/store",
+        endpoint: "transactions",
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
@@ -56,9 +56,14 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
   const getCategories = async () => {
     await request({
       method: "GET",
-      endpoint: "categories/type/1",
+      endpoint: "categories/1",
     })
-      .then((response) => setCategories(response.data))
+      .then((response) => {
+        if (response.data.data.category.length > 1) {
+          return setCategories(response.data.data.category);
+        }
+        setCategories([response.data.data.category]);
+      })
       .catch((error) => console.log(error));
   };
 
@@ -107,7 +112,7 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
             name="transaction_description"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
-            <Input className={styles.input} style={{ width: "95%" }} />
+            <Input className={styles.input} style={{ width: "95%" }} data-test="input-description" />
           </Form.Item>
         </Col>
         <Col style={{ marginTop: 20 }}>
@@ -131,17 +136,16 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
               name="category_id"
               rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
             >
-              <Select
-                className={styles.input}
-                style={{ width: 200, height: 40 }}
-                options={[
-                  { value: 0, label: "Nova" },
-                  ...categories.map((category) => ({
-                    value: category.id,
-                    label: category.category_description,
-                  })),
-                ]}
-              />
+              <Select data-test="category" className={styles.input} style={{ width: 200, height: 40 }}>
+                <Select.Option value={0} data-test="option-newCategory">
+                  Nova
+                </Select.Option>
+                {categories.map((category) => (
+                  <Select.Option key={category.id} value={category.id}>
+                    {category.category_description}
+                  </Select.Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
           {showDescriptionCategory ? (
@@ -151,7 +155,7 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
                 name="category_description"
                 rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
               >
-                <Input className={styles.input} />
+                <Input className={styles.input} data-test="input-categoryDescription" />
               </Form.Item>
             </Col>
           ) : null}
@@ -162,14 +166,14 @@ export const EnterTransactionModal = ({ isModalOpen, setIsModalOpen }: EnterTran
             name="transaction_value"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
-            <Input className={styles.input} placeholder="R$" />
+            <Input className={styles.input} placeholder="R$" data-test="input-value" />
           </Form.Item>
         </Col>
         <Row>
-          <Button className={styles.modalButtonWhite} onClick={handleCancel}>
+          <Button className={styles.modalButtonWhite} onClick={handleCancel} data-test="button-cancel">
             Cancelar
           </Button>
-          <Button htmlType="submit" className={styles.modalButtonPurple}>
+          <Button htmlType="submit" className={styles.modalButtonPurple} data-test="button-submit">
             Adicionar
           </Button>
         </Row>

@@ -33,17 +33,23 @@ const items: MenuItem[] = [
     <Image src="/despesas.svg" alt="Logo" width={25} height={25} />
   ),
   getItem(
-    <Link href={"/EnterTransaction"}>Entradas</Link>,
+    <Link href={"/EnterTransaction"} data-test="enterTrasaction">
+      Entradas
+    </Link>,
     "2",
     <Image src="/bolsa-de-dinheiro.svg" alt="Logo" width={25} height={25} />
   ),
   getItem(
-    <Link href={"/Outputs"}>Saídas</Link>,
+    <Link href={"/Outputs"} data-test="outputTrasaction">
+      Saídas
+    </Link>,
     "3",
     <Image src="/wallet.svg" alt="Logo" width={25} height={25} />
   ),
   getItem(
-    <Link href={"/cards"}>Meus cartões</Link>,
+    <Link href={"/cards"} data-test="cards">
+      Meus cartões
+    </Link>,
     "4",
     <Image src="/cartoes-de-credito.svg" alt="Logo" width={25} height={25} />
   ),
@@ -64,6 +70,7 @@ const items: MenuItem[] = [
         localStorage.clear();
         window.location.href = "/login";
       }}
+      data-test="button-logout"
     />
   ),
 ];

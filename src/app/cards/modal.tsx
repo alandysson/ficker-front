@@ -17,7 +17,6 @@ interface Flag {
 }
 
 export const NewCardModal = ({ isModalOpen, setIsModalOpen }: CardModalProps) => {
-  const [flags, setFlags] = useState<Flag[]>([]);
   const [form] = Form.useForm();
 
   const handleCancel = () => {
@@ -25,24 +24,12 @@ export const NewCardModal = ({ isModalOpen, setIsModalOpen }: CardModalProps) =>
     form.resetFields();
   };
 
-  const getFlags = async () => {
-    try {
-      const response = await request({
-        method: "GET",
-        endpoint: "flags",
-      });
-      setFlags(response.data.data.flags);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleFinish = async () => {
     try {
       const values = await form.validateFields();
       await request({
         method: "POST",
-        endpoint: "card",
+        endpoint: "cards",
         data: {
           ...values,
         },
@@ -55,7 +42,6 @@ export const NewCardModal = ({ isModalOpen, setIsModalOpen }: CardModalProps) =>
   };
 
   useEffect(() => {
-    getFlags();
     form.resetFields();
   }, []);
 
@@ -88,17 +74,14 @@ export const NewCardModal = ({ isModalOpen, setIsModalOpen }: CardModalProps) =>
             name="flag_id"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
-            <Select
-              data-testid="flag_id"
-              className={styles.input}
-              style={{ width: 200, height: 40 }}
-              options={[
-                ...flags.map((flag) => ({
-                  value: flag.id,
-                  label: flag.flag_description,
-                })),
-              ]}
-            />
+            <Select data-test="flag-id" className={styles.input} style={{ width: 200, height: 40 }}>
+              <Select.Option value={1} data-test="card-mastercard">
+                Mastercard
+              </Select.Option>
+              <Select.Option value={2} data-test="card-visa">
+                Visa
+              </Select.Option>
+            </Select>
           </Form.Item>
         </Col>
         <Col style={{ marginTop: 20 }}>
@@ -107,19 +90,23 @@ export const NewCardModal = ({ isModalOpen, setIsModalOpen }: CardModalProps) =>
             name="card_description"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
-            <Input className={styles.input} style={{ width: "95%" }} data-testid="description" />
+            <Input className={styles.input} style={{ width: "95%" }} data-test="card-description" />
           </Form.Item>
         </Col>
         <Col style={{ marginTop: 20 }}>
           <label>Dia de vencimento da fatura:</label>
           <Form.Item
-            name="expiration"
+            name="card_expiration"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
-            <Select data-testid="expiration" className={styles.input} style={{ width: 250, height: 40 }}>
+            <Select data-test="card-expiration" className={styles.input} style={{ width: 250, height: 40 }}>
               {/* Renderize as opções com os dias do mês */}
               {Array.from({ length: 31 }, (_, index) => (
-                <Select.Option key={index + 1} value={index + 1}>
+                <Select.Option
+                  key={index + 1}
+                  value={index + 1}
+                  data-test={`card-expiration-day-${index + 1}`}
+                >
                   {index + 1}
                 </Select.Option>
               ))}
@@ -129,14 +116,18 @@ export const NewCardModal = ({ isModalOpen, setIsModalOpen }: CardModalProps) =>
         <Col style={{ marginTop: 20 }}>
           <label>Dia de fechamento da fatura:</label>
           <Form.Item
-            name="closure"
+            name="card_closure"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
-            <Select data-testid="invoicecloseday" className={styles.input} style={{ width: 250, height: 40 }}>
+            <Select className={styles.input} style={{ width: 250, height: 40 }} data-test="card-closure">
               {/* Renderize as opções com os dias do mês */}
               {Array.from({ length: 31 }, (_, index) => (
-                <Select.Option key={index + 1} value={index + 1}>
-                  {index + 1}
+                <Select.Option
+                  key={31 - index}
+                  value={31 - index}
+                  data-test={`card-closure-day-${31 - index}`}
+                >
+                  {31 - index}
                 </Select.Option>
               ))}
             </Select>
@@ -146,7 +137,7 @@ export const NewCardModal = ({ isModalOpen, setIsModalOpen }: CardModalProps) =>
           <Button className={styles.modalButtonWhite} onClick={handleCancel}>
             Cancelar
           </Button>
-          <Button htmlType="submit" className={styles.modalButtonPurple}>
+          <Button htmlType="submit" className={styles.modalButtonPurple} data-test="button-finish">
             Adicionar
           </Button>
         </Row>

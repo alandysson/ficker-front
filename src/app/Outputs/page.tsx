@@ -23,7 +23,7 @@ const Outputs = () => {
     try {
       const response = await request({
         method: "GET",
-        endpoint: "transaction/type/2",
+        endpoint: "transactions/0?type=2",
       });
       setTransactions(response.data.data.transactions);
     } catch (error) {
@@ -52,7 +52,7 @@ const Outputs = () => {
             </div>
             <div className={styles.buttonsArea}>
               <SearchField />
-              <button className={styles.button} onClick={showModal}>
+              <button className={styles.button} onClick={showModal} data-test="newTransaction">
                 Nova Transação
               </button>
             </div>

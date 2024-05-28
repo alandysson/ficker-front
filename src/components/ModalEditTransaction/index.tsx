@@ -38,21 +38,21 @@ export const EditTransactionModal = ({
     try {
       await request({
         method: "DELETE",
-        endpoint: `transaction/${transaction.id}`,
+        endpoint: `transactions/${transaction.id}`,
       });
       message.success("Transação deletada com sucesso!");
       handleCancel();
     } catch (error) {
-      console.log(error);
+      message.error("Erro ao deletar transação!");
     }
   };
 
   const getCategories = async (typeId: number) => {
     await request({
       method: "GET",
-      endpoint: `categories/type/${typeId}`,
+      endpoint: `categories/0?type=${typeId}`,
     })
-      .then((response) => setCategories(response.data))
+      .then((response) => setCategories(response.data.data.categories))
       .catch((error) => console.log(error));
   };
 
@@ -62,7 +62,7 @@ export const EditTransactionModal = ({
       console.log(values);
       await request({
         method: "PUT",
-        endpoint: `transaction/${transaction.id}`,
+        endpoint: `transactions/${transaction.id}`,
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
@@ -124,7 +124,7 @@ export const EditTransactionModal = ({
             name="transaction_description"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
-            <Input className={styles.input} style={{ width: "95%" }} data-testid="description" />
+            <Input className={styles.input} style={{ width: "95%" }} data-test="input-editDescription" />
           </Form.Item>
         </Col>
         <Col style={{ marginTop: 20 }}>
@@ -181,7 +181,7 @@ export const EditTransactionModal = ({
                   },
                 ]}
               >
-                <Input className={styles.input} data-testid="category_description" />
+                <Input className={styles.input} data-test="category_description" />
               </Form.Item>
             </Col>
           ) : null}
@@ -223,11 +223,15 @@ export const EditTransactionModal = ({
             <Button className={styles.modalButtonWhite} onClick={handleCancel}>
               Cancelar
             </Button>
-            <Button htmlType="submit" className={styles.modalButtonPurple}>
+            <Button htmlType="submit" className={styles.modalButtonPurple} data-test="button-editSubmit">
               Salvar
             </Button>
           </div>
-          <Button className={styles.secondaryLink} onClick={handleDelete}>
+          <Button
+            className={styles.secondaryLink}
+            onClick={handleDelete}
+            data-test="button-deleteTransaction"
+          >
             <Image src="/icons/icon-delete.svg" alt="Excluir" width={20} height={20} />
           </Button>
         </Row>

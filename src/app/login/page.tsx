@@ -57,6 +57,7 @@ export default function Login() {
             className={styles.input}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
+            data-test="input-email"
           />
           <label htmlFor="password" style={{ marginBottom: 5 }}>
             Senha
@@ -68,9 +69,10 @@ export default function Login() {
             className={styles.input}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
+            data-test="input-password"
           />
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <button type="submit" className={styles.button}>
+            <button type="submit" className={styles.button} data-test="button-submit">
               Entrar
             </button>
           </div>

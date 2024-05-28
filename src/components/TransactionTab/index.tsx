@@ -68,12 +68,13 @@ export const TransactionTab = ({ data, typeId, editModal, setEditModal }: Transa
               setIsModalOpen={setEditModal}
               transaction={{ ...selectedTransaction, type_id: typeId }}
             />
-            {data?.map((transaction) => (
+            {data?.map((transaction, index) => (
               <tr key={transaction.id}>
                 <td className={styles.tdEdit}>
                   <button
                     style={{ background: "none", border: "none" }}
                     onClick={() => openEditModal(transaction)}
+                    data-test={`button-editTransaction-${index}`}
                   >
                     <Image src="/edit.png" alt="Editar" width={20} height={20} />
                   </button>

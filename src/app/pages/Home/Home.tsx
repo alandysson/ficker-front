@@ -24,10 +24,14 @@ export const HomeScreen = () => {
           </p>
           <div className={styles.buttonContainer}>
             <Link href={"/login"}>
-              <button className={styles.whiteButton}>Entrar</button>
+              <button className={styles.whiteButton} data-test="button-login">
+                Entrar
+              </button>
             </Link>
             <Link href={"/createaccount"}>
-              <button className={styles.purpleButton}>Cadastrar</button>
+              <button className={styles.purpleButton} data-test="button-newAccount">
+                Cadastrar
+              </button>
             </Link>
           </div>
         </div>

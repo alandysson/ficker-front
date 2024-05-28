@@ -37,7 +37,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
   const getPaymentMethods = async () => {
     try {
       const response = await request({
-        endpoint: "payment/methods",
+        endpoint: "payment-methods",
       });
       setPaymentMethods(response.data.data.payment_methods);
     } catch (error) {}
@@ -46,9 +46,9 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
     try {
       const response = await request({
         method: "GET",
-        endpoint: "categories/type/2",
+        endpoint: `categories/0?type=2`,
       });
-      setCategories(response.data);
+      setCategories(response.data.data.categories);
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +60,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
       console.log(dayjs(values.date).format("YYYY-MM-DD"));
       await request({
         method: "POST",
-        endpoint: "transaction/store",
+        endpoint: "transactions",
         data: {
           ...values,
           date: dayjs(values.date).format("YYYY-MM-DD"),
@@ -78,7 +78,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
     try {
       const response = await request({
         method: "GET",
-        endpoint: "cards",
+        endpoint: "cards/0",
       });
       setCards(response.data.data.cards);
     } catch (error) {
@@ -90,15 +90,6 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
     getCategories();
     getCards();
     getPaymentMethods();
-    if (initialValues) {
-      form.setFieldsValue(initialValues);
-      if (initialValues.category_id === 0) {
-        setShowDescriptionCategory(true);
-      }
-      if (initialValues.payment_method_id === 3) {
-        setShowCards(true);
-      }
-    }
   }, [initialValues]);
 
   return (
@@ -138,14 +129,14 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
             name="transaction_description"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
-            <Input className={styles.input} style={{ width: "95%" }} data-testid="description" />
+            <Input className={styles.input} style={{ width: "95%" }} data-test="input-description" />
           </Form.Item>
         </Col>
         <Col>
           <label>Data:</label>
           <Form.Item name="date" rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}>
             <DatePicker
-              data-testid="date"
+              data-test="date"
               className={styles.input}
               placeholder="dd/mm/aaaa"
               format={"DD/MM/YYYY"}
@@ -163,14 +154,20 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
               rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
             >
               <Select
-                data-testid="payment_method_id"
+                data-test="payment-methodId"
                 className={styles.input}
                 style={{ width: 200, height: 40 }}
-                options={paymentMethods?.map((paymentMethod) => ({
-                  value: paymentMethod.id,
-                  label: paymentMethod.description,
-                }))}
-              />
+              >
+                {paymentMethods?.map((paymentMethod) => (
+                  <Select.Option
+                    key={paymentMethod.id}
+                    value={paymentMethod.id}
+                    data-test={`option-${paymentMethod.id}`}
+                  >
+                    {paymentMethod.description}
+                  </Select.Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
           {showCards ? (
@@ -181,15 +178,13 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
                   name="card_id"
                   rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
                 >
-                  <Select
-                    data-testid="card_id"
-                    className={styles.input}
-                    style={{ width: 200, height: 40 }}
-                    options={cards.map((card) => ({
-                      value: card.id,
-                      label: card.card_description,
-                    }))}
-                  />
+                  <Select data-test="card-id" className={styles.input} style={{ width: 200, height: 40 }}>
+                    {cards.map((card, index) => (
+                      <Select.Option key={card.id} value={card.id} data-test={`card-${index}`}>
+                        {card.card_description}
+                      </Select.Option>
+                    ))}
+                  </Select>
                 </Form.Item>
               </Col>
               <Col>
@@ -199,12 +194,16 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
                   rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
                 >
                   <Select
-                    data-testid="installments"
+                    data-test="installments"
                     className={styles.input}
                     style={{ width: 150, height: 35 }}
                   >
                     {Array.from({ length: 12 }, (_, index) => (
-                      <Select.Option key={index + 1} value={index + 1}>
+                      <Select.Option
+                        key={index + 1}
+                        value={index + 1}
+                        data-test={`installments-${index + 1}`}
+                      >
                         {`${index + 1}x`}
                       </Select.Option>
                     ))}
@@ -221,18 +220,22 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
               name="category_id"
               rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
             >
-              <Select
-                data-testid="category_id"
-                className={styles.input}
-                style={{ width: 200, height: 40 }}
-                options={[
-                  { value: 0, label: "Nova" },
-                  ...categories.map((category) => ({
-                    value: category.id,
-                    label: category.category_description,
-                  })),
-                ]}
-              />
+              <Select data-test="category" className={styles.input} style={{ width: 200, height: 40 }}>
+                <>
+                  <Select.Option key={0} value={0} data-test={`option-0`}>
+                    Nova
+                  </Select.Option>
+                  {categories?.map((category, index) => (
+                    <Select.Option
+                      key={category.id}
+                      value={category.id}
+                      data-test={`categoryOption-${index}`}
+                    >
+                      {category.category_description}
+                    </Select.Option>
+                  ))}
+                </>
+              </Select>
             </Form.Item>
           </Col>
           {showDescriptionCategory ? (
@@ -242,7 +245,7 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
                 name="category_description"
                 rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
               >
-                <Input className={styles.input} data-testid="category_description" />
+                <Input className={styles.input} data-test="input-categoryDescription" />
               </Form.Item>
             </Col>
           ) : null}
@@ -253,14 +256,14 @@ export const OutputModal = ({ isModalOpen, setIsModalOpen, initialValues }: Outp
             name="transaction_value"
             rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
           >
-            <Input className={styles.input} placeholder="R$" data-testid="value" />
+            <Input className={styles.input} placeholder="R$" data-test="input-value" />
           </Form.Item>
         </Col>
         <Row>
           <Button className={styles.modalButtonWhite} onClick={handleCancel}>
             Cancelar
           </Button>
-          <Button htmlType="submit" className={styles.modalButtonPurple}>
+          <Button htmlType="submit" className={styles.modalButtonPurple} data-test="button-finish">
             Adicionar
           </Button>
         </Row>
