@@ -186,23 +186,6 @@ export const EditTransactionModal = ({
             </Col>
           ) : null}
         </Row>
-        {transaction.installments ? (
-          <Col>
-            <label>Parcelas:</label>
-            <Form.Item
-              name="installments"
-              rules={[{ required: true, message: "Esse campo precisa ser preenchido!" }]}
-            >
-              <Select data-testid="installments" className={styles.input} style={{ width: 150, height: 35 }}>
-                {Array.from({ length: 12 }, (_, index) => (
-                  <Select.Option key={index + 1} value={index + 1}>
-                    {`${index + 1}x`}
-                  </Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col>
-        ) : null}
         <Col style={{ marginBottom: 20 }} xl={15}>
           <label>Valor:</label>
           <Form.Item
