@@ -39,7 +39,7 @@ jobs:
           node-version: 18.x
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
         working-directory: JS/jest
 
       - name: Run tests
